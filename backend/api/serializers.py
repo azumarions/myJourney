@@ -18,6 +18,10 @@ class UserSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     created_at = serializers.DateTimeField(
         format="%Y-%m-%d %H:%M:%S", read_only=True)
+    updated_at = serializers.DateTimeField(
+        format="%Y-%m-%d %H:%M:%S", read_only=True)
+
+    # user = UserSerializer(read_only=True)
 
     class Meta:
         model = Profile
@@ -29,16 +33,20 @@ class ProfileSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     created_at = serializers.DateTimeField(
         format="%Y-%m-%d %H:%M:%S", read_only=True)
+    updated_at = serializers.DateTimeField(
+        format="%Y-%m-%d %H:%M:%S", read_only=True)
 
     class Meta:
         model = Post
-        fields = ('id', 'title', 'description', 'img',
+        fields = ('id', 'userPost', 'title', 'description', 'img',
                   'created_at', 'updated_at', 'liked')
-        extra_kwargs = {'animal': {'read_only': True}}
+        extra_kwargs = {'userPost': {'read_only': True}}
 
 
 class CommentSerializer(serializers.ModelSerializer):
     created_at = serializers.DateTimeField(
+        format="%Y-%m-%d %H:%M:%S", read_only=True)
+    updated_at = serializers.DateTimeField(
         format="%Y-%m-%d %H:%M:%S", read_only=True)
 
     class Meta:

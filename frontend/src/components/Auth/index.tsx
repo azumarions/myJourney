@@ -2,6 +2,15 @@ import React, { useState } from "react"
 import { useRouter } from "next/router"
 import Cookie from "universal-cookie"
 import { createProf, getProf, getMyProf } from "../../api/profile";
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const cookie = new Cookie();
 
@@ -66,91 +75,75 @@ const Auth = () => {
     }
   }
 
-  return (
-    <>
-    <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md space-y-8">
-        <div>
-            <img
-            className="mx-auto h-12 w-auto"
-            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-            alt="Your Company"
-            />
-            <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-white-900">
-              {isLogin? 'Login' : 'Sign up'}
-            </h2>
-        </div>
-        <form className="mt-8 space-y-6" action="#" method="POST" onSubmit={onSubmit}>
-            <input type="hidden" name="remember" defaultValue="true" />
-            <div className="-space-y-px rounded-md shadow-sm">
-            <div>
-                <input
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                placeholder="Email address"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value)
-                }}
-                />
-            </div>
-            <div>
-                <input
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                className="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value)
-                }}
-                />
-            </div>
-            </div>
-            <div className="flex items-center justify-center">
-            <div className="text-sm">
-                <span 
-                  onClick={() => setIsLogin(!isLogin)} 
-                  className="font-medium cursor-pointer text-white-600 hover:text-indigo-500"
-                >
-                    change mode ?
-                </span>
-            </div>
-            </div>
+  const theme = createTheme();
 
-            <div>
-            <button
-                type="submit"
-                className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+  return (
+    <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          {isLogin ? <Avatar sx={{ m: 1, width: 150, height: 150 }} src="/auth_icon1.jpeg" alt="icon">
+          </Avatar> : <Avatar sx={{ m: 1, width: 150, height: 150 }} src="/auth_icon3.jpeg" alt="icon">
+          </Avatar> }
+          
+          <Typography component="h1" variant="h5">
+            {isLogin? 'Log in' : 'Sign up'}
+          </Typography>
+          <Box component="form" onSubmit={onSubmit} method="POST" noValidate sx={{ mt: 1 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="メールアドレス"
+              name="email"
+              type="email"
+              autoComplete="email"
+              autoFocus
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value)
+              }}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="password"
+              label="パスワード"
+              name="password"
+              type="password"
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value)
+              }}
+            />
+            <Grid container justifyItems="center" alignItems="center">
+              <Grid item sx={{ mt: 1, mb: 0 }} xs={4} onClick={() => setIsLogin(!isLogin)}>
+                {isLogin ? '新規登録へ ->' : 'ログインへ ->'}
+              </Grid>
+            </Grid>
+            <Button
+              type="submit"
+              fullWidth
+              variant="outlined"
+              color="secondary"
+              sx={{ mt: 3, mb: 2 }}
             >
-                <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg" 
-                    fill="none" 
-                    viewBox="0 0 24 24" 
-                    strokeWidth={1.5} 
-                    stroke="currentColor" 
-                    className="w-6 h-6"
-                  >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round" 
-                        d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" 
-                    />
-                  </svg>
-                </span>
-                {isLogin ? 'Login with JWT' : 'Create new user'}
-            </button>
-            </div>
-        </form>
-      </div>
-    </div>
-    </>
+              {isLogin ? 'ログイン' : '新規登録'}
+            </Button>  
+          </Box>
+        </Box>
+      </Container>
+    </ThemeProvider>
   )
 }
 

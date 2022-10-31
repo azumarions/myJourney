@@ -11,7 +11,7 @@ export const getAllPostsId = async () => {
     new URL(`${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/post-list/`)
   )
   const posts = await res.json()
-  return posts.map((post: { id: any }) => {
+  return posts.map((post: { id: number }) => {
     return {
       params: {
         id: String(post.id)
@@ -20,7 +20,7 @@ export const getAllPostsId = async () => {
   })
 }
 
-export const getPost = async (id:string) => {
+export const getPost = async (id: string) => {
   const res = await fetch(
     new URL(`${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/post-detail/${id}`)
   )

@@ -15,7 +15,7 @@ def upload_avatar_path(instance, filename):
 
 def upload_post_path(instance, filename):
     ext = filename.split('.')[-1]
-    return '/'.join(['post', str(instance.post.id)+str(instance.title)+str(".")+str(ext)])
+    return '/'.join(['post', str(instance.userPost.id)+str(instance.title)+str(".")+str(ext)])
 
 
 class UserManager(BaseUserManager):
@@ -74,12 +74,12 @@ class Profile(models.Model):
 
 
 class Post(models.Model):
-    post = models.ForeignKey(
-        settings.AUTH_USER_MODEL, related_name='post',
-        on_delete=models.CASCADE
-    )
     id = models.CharField(primary_key=True, default=uuid4,
                           editable=False, max_length=33, unique=True)
+    userPost = models.ForeignKey(
+        settings.AUTH_USER_MODEL, related_name='userPost',
+        on_delete=models.CASCADE
+    )
     title = models.CharField(verbose_name='タイトル', max_length=50)
     description = models.TextField(
         verbose_name='概要', max_length=1000, blank=True, null=True)

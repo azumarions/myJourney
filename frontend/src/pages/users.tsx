@@ -16,12 +16,7 @@ interface STATICPROPS {
 const UserPage: React.FC<STATICPROPS> = ({ users }) => {
     return (
       <Layout title="Blog">
-        {/* <ImageList sx={{ width: 500, height: 650 }}> */}
-          {/* <ImageListItem key="Subheader" cols={2}>
-            <ListSubheader component="div">POST</ListSubheader>
-          </ImageListItem> */}
         <ul>  {users && users.map((user) => <Users key={user.id} {...user} />)} </ul>
-        {/* </ImageList> */}
       </Layout>
     )
   }

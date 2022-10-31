@@ -42,7 +42,7 @@ class PostViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.PostSerializer
 
     def perform_create(self, serializer):
-        serializer.save(post=self.request.user)
+        serializer.save(userPost=self.request.user)
 
 
 class PostRetrieveView(generics.RetrieveAPIView):
