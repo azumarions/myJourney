@@ -42,7 +42,7 @@ const Auth = () => {
       .then((data) => {
         const options = { path: '/' };
         cookie.set('access_token', data.access, options);
-        getProf();
+        // getProf();
       });
       router.push('/posts');
     } catch (err) {

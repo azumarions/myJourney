@@ -11,7 +11,7 @@ interface STATICPROPS {
 
 const PostPage: React.FC<STATICPROPS> = ({ posts }) => {
     return (
-      <Layout title="Blog">
+      <Layout title="Posts">
         <ImageList sx={{ width: 500, height: 650 }}>  
           {posts && posts.map((post) => <Post key={post.id} {...post} />)}
         </ImageList>

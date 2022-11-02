@@ -24,6 +24,7 @@ import {
 } from '@mui/material/styles'
 import * as React from 'react'
 import Link from 'next/link'
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Input, TextareaAutosize, TextField } from '@mui/material'
 
 const drawerWidth = 200
 
@@ -79,6 +80,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function Menu() {
   const theme = useTheme()
   const [open, setOpen] = React.useState(false)
+  const [form, setForm] = React.useState(false)
 
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -87,6 +89,14 @@ export default function Menu() {
   const handleDrawerClose = () => {
     setOpen(false)
   }
+
+  const handleFormOpen = () => {
+    setForm(true);
+  };
+
+  const handleFormClose = () => {
+    setForm(false);
+  };
 
   const colorTheme = createTheme({
     palette: {
@@ -175,35 +185,61 @@ export default function Menu() {
               </ListItem>
             </Link>
           </List>
-          {/* <List>
-            {['トップ', 'ログイン', 'ホーム'].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List> */}
-          {/* <Divider />
           <List>
-            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              <ListItem disablePadding>
+                <ListItemButton onClick={handleFormOpen}>
+                    <ListItemIcon>
+                  <InboxIcon />
                   </ListItemIcon>
-                  <ListItemText primary={text} />
+                  <ListItemText primary="新規投稿" />
                 </ListItemButton>
               </ListItem>
-            ))}
-          </List> */}
+          </List>
         </Drawer>
         <Main open={open}>
           <DrawerHeader />
         </Main>
+        <Dialog open={form} onClose={handleFormClose}>
+        <DialogTitle>新規投稿</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            To subscribe to this website, please enter your email address here. We
+            will send updates occasionally.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="normal"
+            id="name"
+            label="タイトル"
+            type="text"
+            fullWidth
+            variant="standard"
+          />
+          <Input
+            type="file"
+            margin='dense'
+          />
+          {/* <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="概要"
+            type="textarea"
+            fullWidth
+            variant="standard"
+          /> */}
+          <TextareaAutosize
+            aria-label="概要"
+            minRows={10}
+            placeholder="概要"
+            style={{ width: 400 }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleFormClose}>戻る</Button>
+          <Button onClick={handleFormClose}>投稿</Button>
+        </DialogActions>
+      </Dialog>
       </Box>
     </ThemeProvider>
   )

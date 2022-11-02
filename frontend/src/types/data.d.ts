@@ -10,12 +10,12 @@ export interface PROPS_AUTHEN {
 }
   
 export interface USER {
-    userId: number
+    id: number
     userProfile: string
     name: string
     statusMessage: string
     description: string
-    userImg: string
+    img: string
 }
   
 export interface PROPS_NAME {

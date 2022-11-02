@@ -4,7 +4,7 @@ import Layout from '../components/Layout'
 
 const top = () => {
   return (
-    <Layout title='top page'>
+    <Layout title='Top'>
     <div>
       <Link href={"/posts"}>
         <p>

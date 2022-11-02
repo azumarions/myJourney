@@ -4,16 +4,12 @@ import ImageListItemBar from '@mui/material/ImageListItemBar';
 import IconButton from '@mui/material/IconButton';
 import InfoIcon from '@mui/icons-material/Info';
 import * as React from 'react';
-import Button from '@mui/material/Button';
 import Dialog, { DialogProps } from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { ThemeProvider, createTheme } from '@mui/material';
-import { getAllUsers } from '../../api/users';
-import { PostContext } from '../../contexts/post';
-import { USER } from '../../types';
-import { TestContext } from '../../contexts/auth';
+import { ThemeProvider, createTheme, Avatar, ListItem, ListItemAvatar, ListItemText, List, DialogContentText, Typography, Box } from '@mui/material';
+import { UserContext } from '../../contexts/user';
+import Link from 'next/link';
 
 interface POST {
   id: number
@@ -24,16 +20,9 @@ interface POST {
 }
 
 const Post: React.FC<POST> = ({ id, userPost, title, img, description}) => {
-  const { users } = React.useContext(TestContext)
+  const { users } = React.useContext(UserContext)
   const user = users.filter((user) => user.userProfile === userPost)
-  console.log(user);
-  // const u = user.map( u => (<span key={u.id}>{u.name}</span>))
-  // const user = users.find(user => user.userId === userPost)
-  // users && users.map((user) => {user.id, user.name})
-  // const user = users.find((user) => {
-  //   return user.userProfile === userPost;
-  // });
-  
+  // console.log(user);
 
   const [open, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState<DialogProps['scroll']>('paper');
@@ -60,9 +49,8 @@ const Post: React.FC<POST> = ({ id, userPost, title, img, description}) => {
   const theme = createTheme();
 
   return (
-    <ThemeProvider theme={theme}>
-      {/* <Container maxWidth="xs"> */}
-        {/* <ImageList sx={{ width: 800, cols: 3}}> */}
+    <>
+      <ThemeProvider theme={theme}>
         <ImageListItem sx={{ gap: 0}}>
           <img
             src={`${img}?w=248&fit=crop&auto=format`}
@@ -71,25 +59,6 @@ const Post: React.FC<POST> = ({ id, userPost, title, img, description}) => {
             loading="lazy"
             onClick={handleClickOpen('paper')}
           />
-          <Dialog
-            open={open}
-            onClose={handleClose}
-            scroll={scroll}
-            aria-labelledby="scroll-dialog-title"
-            aria-describedby="scroll-dialog-description"
-          >
-            <DialogTitle id="scroll-dialog-title">{title}</DialogTitle>
-            <DialogContent dividers={scroll === 'paper'}>
-              
-              <Image src={img} width={400} height={400} alt={title} />
-              {/* <p>{description}</p> */}
-              {user.map( u => (<span key={u.id}>{u.name}</span>))}
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose}>back</Button>
-              <Button onClick={handleClose}>liked</Button>
-            </DialogActions>
-          </Dialog>
           <ImageListItemBar
             title={title}
             subtitle={description}
@@ -103,10 +72,38 @@ const Post: React.FC<POST> = ({ id, userPost, title, img, description}) => {
             }
           />
         </ImageListItem>
-      {/* </ImageList> */}
-      {/* </Container> */}
-    </ThemeProvider>
-            
+      </ThemeProvider>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        scroll={scroll}
+        aria-labelledby="scroll-dialog-title"
+        aria-describedby="scroll-dialog-description"
+      >
+        <DialogTitle id="scroll-dialog-title">{title}</DialogTitle>
+        <DialogContent dividers={scroll === 'paper'}>             
+          <Image src={img} width={400} height={400} alt={title} />             
+            <Box fontSize={16}>{description}</Box>   
+              {user.map( user => (
+                <div key={user.id}>
+                <List>
+                  <Link href={`/user/${user.id}`}>
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar sx={{ m: 1, width: 50, height: 50, minWidth: 20 }}
+                          alt={user.name}
+                          src={user.img}
+                        />
+                      </ListItemAvatar>
+                      <ListItemText primary={user.name}/>
+                    </ListItem>
+                  </Link>
+                </List>
+                </div>
+              ))}             
+        </DialogContent>
+      </Dialog>
+    </>     
   )
 }
 export default Post

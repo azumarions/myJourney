@@ -3,11 +3,6 @@ import { getAllUsers } from '../api/users';
 import { GetStaticProps } from 'next'
 import { USER } from '../types';
 import Users from '../components/Users';
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
-import ImageListItemBar from '@mui/material/ImageListItemBar';
-import IconButton from '@mui/material/IconButton';
-import InfoIcon from '@mui/icons-material/Info';
 
 interface STATICPROPS {
   users: USER[]
@@ -15,7 +10,7 @@ interface STATICPROPS {
 
 const UserPage: React.FC<STATICPROPS> = ({ users }) => {
     return (
-      <Layout title="Blog">
+      <Layout title="Users">
         <ul>  {users && users.map((user) => <Users key={user.id} {...user} />)} </ul>
       </Layout>
     )
