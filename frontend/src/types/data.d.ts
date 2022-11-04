@@ -2,11 +2,20 @@ export interface File extends Blob {
     readonly lastModified: number
     readonly name: string
   }
-  /*authSlice.ts*/
+
 export interface PROPS_AUTHEN {
     email: string
     password: string
     isLogin: boolean
+}
+
+export interface PROFILE {
+    id: number
+    userProfile: string
+    name: string
+    statusMessage: string
+    description: string
+    img: string
 }
   
 export interface USER {
@@ -16,10 +25,6 @@ export interface USER {
     statusMessage: string
     description: string
     img: string
-}
-  
-export interface PROPS_NAME {
-    name: string
 }
   
 export interface POST {

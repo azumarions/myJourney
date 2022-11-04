@@ -14,9 +14,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { ThemeProvider, createTheme } from '@mui/material';
 import { PostContext } from '../../contexts/post';
 import Link from 'next/link';
+import { useContext } from 'react';
 
 const Users: React.FC<USER> = ({ id, userProfile, name, img, statusMessage, description }) => {
-  const { posts } = React.useContext(PostContext)
+  const { posts } = useContext(PostContext)
   const post = posts.filter((post) => post.userPost === userProfile)
   // console.log(user);
 

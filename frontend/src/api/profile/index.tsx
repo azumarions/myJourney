@@ -29,7 +29,7 @@ export const createProf = async () => {
 export const getProf = async () => {
   try {
     await fetch(
-      `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/profile`,
+      `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/profile/`,
       {
         method: 'GET',
         headers: {
@@ -53,8 +53,8 @@ export const getProf = async () => {
 
 export const getMyProf = async () => {
   try {
-    await fetch(
-      `${process.env.NEXT_PUblic_RESTAPI_URL}/api/myprofile`,
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/myprofile/`,
       {
         method: 'GET',
         headers: {
@@ -63,14 +63,17 @@ export const getMyProf = async () => {
         },
       }
     )
-    .then((res) => {
-      if (res.status == 401) {
-        throw 'JWT Token not valid';
-      } else if (res.ok) {
-        return res.json();
-      }
-    });
+    const profile = await res.json()
+    return profile
+    // .then((res) => {
+    //   if (res.status == 401) {
+    //     throw 'JWT Token not valid';
+    //   } else if (res.ok) {
+    //     return res.json();
+    //   }
+    // });
   } catch (err) {
     alert(err);
   }
 };
+

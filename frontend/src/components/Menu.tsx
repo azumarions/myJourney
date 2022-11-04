@@ -25,6 +25,14 @@ import {
 import * as React from 'react'
 import Link from 'next/link'
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Input, TextareaAutosize, TextField } from '@mui/material'
+import PostForm from './PostForm'
+import MyProfile from './MyProfile'
+import { useState } from 'react'
+import Cookie from "universal-cookie";
+import { useRouter } from "next/router";
+
+
+const cookie = new Cookie();
 
 const drawerWidth = 200
 
@@ -78,25 +86,30 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }))
 
 export default function Menu() {
+  const router = useRouter();
   const theme = useTheme()
-  const [open, setOpen] = React.useState(false)
-  const [form, setForm] = React.useState(false)
+  const [open, setOpen] = useState(false)
+  const [form, setForm] = useState(false)
+  const [myProfile, setMyProfile] = useState(false)
 
   const handleDrawerOpen = () => {
     setOpen(true)
   }
-
   const handleDrawerClose = () => {
     setOpen(false)
   }
-
   const handleFormOpen = () => {
-    setForm(true);
-  };
-
+    setForm(true)
+  }
   const handleFormClose = () => {
-    setForm(false);
-  };
+    setForm(false)
+  }
+  const handleProfileOpen = () => {
+    setMyProfile(true)
+  }
+  const handleProfileClose = () => {
+    setMyProfile(false)
+  }
 
   const colorTheme = createTheme({
     palette: {
@@ -105,6 +118,11 @@ export default function Menu() {
       },
     },
   })
+
+  const logout = () => {
+    cookie.remove("access_token");
+    router.push("/");
+  };
 
   return (
     <ThemeProvider theme={colorTheme}>
@@ -185,6 +203,16 @@ export default function Menu() {
               </ListItem>
             </Link>
           </List>
+          <List>     
+              <ListItem disablePadding>
+                <ListItemButton onClick={handleProfileOpen}>
+                    <ListItemIcon>
+                  <InboxIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="プロフィール" />
+                </ListItemButton>
+              </ListItem>      
+          </List>
           <List>
               <ListItem disablePadding>
                 <ListItemButton onClick={handleFormOpen}>
@@ -195,51 +223,23 @@ export default function Menu() {
                 </ListItemButton>
               </ListItem>
           </List>
+          <List>
+              <ListItem disablePadding>
+                <ListItemButton onClick={logout}>
+                    <ListItemIcon>
+                  <InboxIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="ログアウト" />
+                </ListItemButton>
+              </ListItem>
+          </List>
         </Drawer>
         <Main open={open}>
           <DrawerHeader />
         </Main>
-        <Dialog open={form} onClose={handleFormClose}>
-        <DialogTitle>新規投稿</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            To subscribe to this website, please enter your email address here. We
-            will send updates occasionally.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="normal"
-            id="name"
-            label="タイトル"
-            type="text"
-            fullWidth
-            variant="standard"
-          />
-          <Input
-            type="file"
-            margin='dense'
-          />
-          {/* <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="概要"
-            type="textarea"
-            fullWidth
-            variant="standard"
-          /> */}
-          <TextareaAutosize
-            aria-label="概要"
-            minRows={10}
-            placeholder="概要"
-            style={{ width: 400 }}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleFormClose}>戻る</Button>
-          <Button onClick={handleFormClose}>投稿</Button>
-        </DialogActions>
-      </Dialog>
+        <MyProfile myProfile={myProfile} handleProfileClose={handleProfileClose} />
+        <PostForm form={form} handleFormClose={handleFormClose} />
+  
       </Box>
     </ThemeProvider>
   )

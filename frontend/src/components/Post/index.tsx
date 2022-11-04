@@ -51,7 +51,7 @@ const Post: React.FC<POST> = ({ id, userPost, title, img, description}) => {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <ImageListItem sx={{ gap: 0}}>
+        <ImageListItem sx={{ gap: 0 }}>
           <img
             src={`${img}?w=248&fit=crop&auto=format`}
             srcSet={`${img}?w=248&fit=crop&auto=format&dpr=2 2x`}
