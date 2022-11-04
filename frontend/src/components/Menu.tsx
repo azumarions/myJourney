@@ -1,6 +1,5 @@
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import MailIcon from '@mui/icons-material/Mail'
 import MenuIcon from '@mui/icons-material/Menu'
 import InboxIcon from '@mui/icons-material/MoveToInbox'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
@@ -24,7 +23,6 @@ import {
 } from '@mui/material/styles'
 import * as React from 'react'
 import Link from 'next/link'
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Input, TextareaAutosize, TextField } from '@mui/material'
 import PostForm from './PostForm'
 import MyProfile from './MyProfile'
 import { useState } from 'react'
@@ -34,7 +32,7 @@ import { useRouter } from "next/router";
 
 const cookie = new Cookie();
 
-const drawerWidth = 200
+const drawerWidth = 230
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
   open?: boolean
@@ -166,7 +164,7 @@ export default function Menu() {
               )}
             </IconButton>
           </DrawerHeader>
-          <Divider />
+          <Divider /> 
           <List>
             <Link href={"/posts"}>
               <ListItem disablePadding>
@@ -178,7 +176,7 @@ export default function Menu() {
                 </ListItemButton>
               </ListItem>
             </Link>
-          </List>
+          </List>        
           <List>
             <Link href={"/auth"}>
               <ListItem disablePadding>

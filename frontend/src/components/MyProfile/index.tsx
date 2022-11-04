@@ -15,8 +15,9 @@ type DIALOG = {
 const MyProfile: React.FC<DIALOG> = ({ myProfile, handleProfileClose}) => {
   const { profile, setProfile } = useContext(ProfileContext)
   const { posts, setPosts } = useContext(PostContext)
-  // const post = posts.filter((post) => post.userPost === profile.userProfile)
+  // const post = posts.filter((post) => post.userPost === profile.map((p) => p.userProfile))
 
+  const p = profile.map( p => p.userProfile)
   // console.log(user);
   
   return (
