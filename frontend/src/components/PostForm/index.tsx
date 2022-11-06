@@ -27,7 +27,7 @@ const PostForm: React.FC<DIALOG> = ({ form, handleFormClose}) => {
         alert("JWT Token not valid");
         }
     });
-    setPost({ id: 0, title: "", description: "", userPost: "", img: "", });
+    setPost({ id: 0, title: "", description: "", userPost: 0, img: "", });
   }
   return (
     <Dialog open={form} onClose={handleFormClose}>
@@ -61,35 +61,12 @@ const PostForm: React.FC<DIALOG> = ({ form, handleFormClose}) => {
                 setPost({ ...post, description: e.target.value})
             }}
             />
-            {/* <input
-                className="text-black mb-8 px-2 py-1"
-                type="file"
-                value={post.img}
-                onChange={(e) =>
-                    setPost({ ...post, img: e.target.value })
-                }
-            /> */}
-            {/* <Input
-                type="file"
-                margin='dense'
-            /> */}
-
-          {/* <TextareaAutosize
-            aria-label="概要"
-            minRows={10}
-            placeholder="概要"
-            style={{ width: 400 }}
-          /> */}
           <DialogActions>
             <Button onClick={handleFormClose}>戻る</Button>
             <Button type="submit">投稿</Button>
             </DialogActions>
           </Box>
         </DialogContent>
-        {/* <DialogActions>
-          <Button onClick={handleFormClose}>戻る</Button>
-          <Button onClick={handleFormClose}>投稿</Button>
-        </DialogActions> */}
       </Dialog>
   )
 }

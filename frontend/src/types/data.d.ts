@@ -11,7 +11,7 @@ export interface PROPS_AUTHEN {
 
 export interface PROFILE {
     id: number
-    userProfile: string
+    userProfile: number
     name: string
     statusMessage: string
     description: string
@@ -20,7 +20,7 @@ export interface PROFILE {
   
 export interface USER {
     id: number
-    userProfile: string
+    userProfile: number
     name: string
     statusMessage: string
     description: string
@@ -29,8 +29,16 @@ export interface USER {
   
 export interface POST {
     id: number
-    userPost: string
+    userPost: number
     title: string
     description: string
     img: string
+}
+
+export interface COMMENT {
+    id: number
+    sentence: string
+    comment?: number | undefined
+    post?: number | undefined
+    create_at?: number | undefined
 }

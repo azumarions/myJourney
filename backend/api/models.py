@@ -1,3 +1,4 @@
+from datetime import timezone
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.conf import settings
@@ -106,3 +107,9 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.sentence
+
+
+# class Like(models.Model):
+#     like_post = models.ForeignKey(Post, on_delete=models.CASCADE)
+#     like_User = models.ForeignKey(User, on_delete=models.CASCADE)
+#     timestamp = models.DateTimeField(default=timezone.now)

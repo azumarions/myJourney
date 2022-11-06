@@ -18,5 +18,6 @@ urlpatterns = [
     path('post-list/', views.PostListView.as_view(), name='post-list'),
     path('post-detail/<slug:pk>/',
          views.PostRetrieveView.as_view(), name='post-detail'),
+    path('comment-list/', views.CommentListView.as_view(), name='comment-list'),
     path('', include(router.urls))
 ]

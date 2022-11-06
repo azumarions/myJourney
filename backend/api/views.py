@@ -57,6 +57,12 @@ class PostListView(generics.ListAPIView):
     permission_classes = (AllowAny,)
 
 
+class CommentListView(generics.ListAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = serializers.CommentSerializer
+    permission_classes = (AllowAny,)
+
+
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = serializers.CommentSerializer

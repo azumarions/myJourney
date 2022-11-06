@@ -17,7 +17,7 @@ const MyProfile: React.FC<DIALOG> = ({ myProfile, handleProfileClose}) => {
   const { posts, setPosts } = useContext(PostContext)
   // const post = posts.filter((post) => post.userPost === profile.map((p) => p.userProfile))
 
-  const p = profile.map( p => p.userProfile)
+  // const p = profile.map( p => p.userProfile)
   // console.log(user);
   
   return (
@@ -26,26 +26,18 @@ const MyProfile: React.FC<DIALOG> = ({ myProfile, handleProfileClose}) => {
         <DialogContent>
           <DialogContentText>
           </DialogContentText>
-          {/* <Avatar sx={{ m: 1, width: 350, height: 350 }}
-                alt={profile.name}
-                src={profile.img}
-              /> */}
-              {profile.map( p => (
+              {/* {profile && profile.map( p => (
                 <div key={p.id}>             
                         <Avatar sx={{ m: 1, width: 350, height: 350, minWidth: 20 }}
                           alt={p.name}
                           src={p.img}
                         />
                 </div>
-              ))}
+              ))} */}
           <DialogActions>
             <Button onClick={handleProfileClose}>戻る</Button>
             </DialogActions>
         </DialogContent>
-        {/* <DialogActions>
-          <Button onClick={handleFormClose}>戻る</Button>
-          <Button onClick={handleFormClose}>投稿</Button>
-        </DialogActions> */}
     </Dialog>
   )
 }
