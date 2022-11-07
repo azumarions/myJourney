@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, Dispatch } from "react";
+import React, { createContext, useState, useEffect, Dispatch, useContext } from "react";
 import { getAllComments } from "../../api/comment";
 import { COMMENT } from "../../types";
 
