@@ -1,6 +1,7 @@
+from dataclasses import fields
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from .models import Post, Profile, Comment
+from .models import Like, Post, Profile, Comment
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -54,3 +55,10 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ('id', 'sentence', 'comment',
                   'post', 'created_at', 'updated_at')
         extra_kwargs = {'comment': {'read_only': True}}
+
+
+class LikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Like
+        fields = ('id', 'userLike', 'postLike', 'created_at')
+        extra_kwargs = {'userLike': {'read_only': True}}
