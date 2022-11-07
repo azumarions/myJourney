@@ -42,3 +42,9 @@ export interface COMMENT {
     post?: number | undefined
     create_at?: number | undefined
 }
+
+export interface LIKE {
+    id: number
+    userLike: number
+    postLike: number
+  }

@@ -4,6 +4,7 @@ import { PostContextProvider } from '../contexts/post'
 import { UserContextProvider } from '../contexts/user'
 import { ProfileContextProvider } from '../contexts/profile'
 import { CommentContextProvider } from '../contexts/comment'
+import { LikeContextProvider } from '../contexts/like'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -11,7 +12,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     <UserContextProvider>
     <ProfileContextProvider>
     <CommentContextProvider>
+    <LikeContextProvider>
       <Component {...pageProps} />
+    </LikeContextProvider>
     </CommentContextProvider>
     </ProfileContextProvider>
     </UserContextProvider>

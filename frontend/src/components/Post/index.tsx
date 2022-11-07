@@ -1,14 +1,11 @@
 import React, { MouseEventHandler, useContext, useEffect, useRef, useState } from 'react';
 import Image from 'next/image'
-import { UserContext } from '../../contexts/user';
-import { CommentContext } from '../../contexts/comment';
 import PostDialog from '../PostDialog';
 import { POST } from '../../types';
 import { Avatar, Box, Grid } from '@mui/material';
 import { Dialog, DialogProps, DialogContent, DialogTitle } from '@mui/material';
 import { ImageListItem, ImageListItemBar, IconButton } from '@mui/material'
 import InfoIcon from '@mui/icons-material/Info';
-import { PostContext } from '../../contexts/post';
 
 const Post: React.FC<POST> = ({ id, userPost, title, img, description }) => {
   const [open, setOpen] = useState(false);
@@ -70,10 +67,13 @@ const Post: React.FC<POST> = ({ id, userPost, title, img, description }) => {
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
       >
-        <DialogTitle id="scroll-dialog-title">{title}</DialogTitle>
-        <DialogContent dividers={scroll === 'paper'}>             
-          <Image src={img} width={400} height={400} alt={title} />
+        <DialogTitle id="scroll-dialog-title" sx={{ textAlign: 'center', fontSize: 25 }}>{title}</DialogTitle>
+        <DialogContent dividers={scroll === 'paper'}>
+          <Grid container alignItems='center' justifyContent='center' direction="column">
+          <Image src={img} width={500} height={500} alt={title} />
+          <Box sx={{ padding: 2 }} fontSize={20}>詳細情報</Box>
           <Box fontSize={16}>{description}</Box>
+          </Grid>
           <PostDialog key={id} postId={id} userPost={userPost} />
           {/* {user && user.map((user) => <PostDialog key={user.id} id={user.id} postId={id} name={user.name} img={user.img} filterComment={filterComment} />)} */}
           {/* {comment.map((comment) => (

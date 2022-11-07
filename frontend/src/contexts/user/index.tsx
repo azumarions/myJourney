@@ -1,16 +1,20 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, Dispatch } from "react";
 import { getAllUsers } from "../../api/users";
 import { USER } from "../../types";
 
 type UserContextType = {
   users: USER[]
+  setUsers: Dispatch<React.SetStateAction<USER[]>>
 }
 
 interface UserContextProviderProps {
   children: React.ReactNode
 }
 
-export const UserContext = React.createContext<UserContextType>({ users: [], });
+export const UserContext = React.createContext<UserContextType>({} as {
+  users: USER[]
+  setUsers: Dispatch<React.SetStateAction<USER[]>>
+});
 
 export const UserContextProvider = ({ children }: UserContextProviderProps) => {
   const [users, setUsers] = useState<USER[]>([]);
@@ -31,6 +35,7 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
     <UserContext.Provider
       value={{
        users,
+       setUsers,
       }}
     >
       {children}

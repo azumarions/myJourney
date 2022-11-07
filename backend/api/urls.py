@@ -20,6 +20,6 @@ urlpatterns = [
     path('post-detail/<slug:pk>/',
          views.PostRetrieveView.as_view(), name='post-detail'),
     path('comment-list/', views.CommentListView.as_view(), name='comment-list'),
-    path('like-list', views.LikeListView.as_view(), name='like-list'),
+    path('like-list/', views.LikeListView.as_view(), name='like-list'),
     path('', include(router.urls))
 ]

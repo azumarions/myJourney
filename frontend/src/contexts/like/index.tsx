@@ -1,11 +1,6 @@
 import React, { createContext, useState, useEffect, Dispatch } from "react";
-import { getAllPosts } from "../../api/post";
-import { POST } from "../../types";
-
-type LIKE = {
-    likeUser: number
-    likePost: number
-}
+import { getAllLikes } from "../../api/like";
+import { LIKE } from "../../types"
 
 type LikeContextType = {
     likes: LIKE[]
@@ -25,14 +20,12 @@ export const LikeContext = createContext<LikeContextType>(
 
 export const LikeContextProvider = ({ children }: LikeContextProviderProps) => {
   const [likes, setLikes] = useState<LIKE[]>([]);
-  const [postLikes, setPostLikes] = useState();
 
   useEffect(() => {
     const filter = async () => {
       try {
-        const resLikes = await getAllPosts()
+        const resLikes = await getAllLikes()
         resLikes && setLikes(resLikes);
-        setPostLikes(likes.map((like) => like.likePost === like.likeUser))
       } catch {
         console.log("error");
       };
