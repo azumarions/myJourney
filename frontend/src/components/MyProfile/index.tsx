@@ -1,11 +1,6 @@
 import { Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, ListItemAvatar, ListItemText, TextareaAutosize, TextField } from '@mui/material'
-import { ppid } from 'process';
 import React, { useContext } from 'react'
-import Cookie from "universal-cookie";
-import { PostContext } from '../../contexts/post';
 import { ProfileContext } from '../../contexts/profile'
-
-const cookie = new Cookie();
 
 type DIALOG = {
     myProfile: boolean
@@ -14,26 +9,24 @@ type DIALOG = {
 
 const MyProfile: React.FC<DIALOG> = ({ myProfile, handleProfileClose}) => {
   const { profile, setProfile } = useContext(ProfileContext)
-  const { posts, setPosts } = useContext(PostContext)
   
   return (
     <Dialog open={myProfile} onClose={handleProfileClose}>
+      
         <DialogTitle>プロフィール</DialogTitle>
+        {profile.map((prof) => (
         <DialogContent>
           <DialogContentText>
-          </DialogContentText>
-              {profile && profile.map( p => (
-                <div key={p.id}>             
-                        <Avatar sx={{ m: 1, width: 350, height: 350, minWidth: 20 }}
-                          alt={p.name}
-                          src={p.img}
-                        />
-                </div>
-              ))}
+          </DialogContentText> 
+            <Avatar sx={{ m: 1, width: 350, height: 350, minWidth: 20 }}
+              alt={prof.name}
+              src={prof.img}
+            />
           <DialogActions>
             <Button onClick={handleProfileClose}>戻る</Button>
             </DialogActions>
         </DialogContent>
+        ))}
     </Dialog>
   )
 }

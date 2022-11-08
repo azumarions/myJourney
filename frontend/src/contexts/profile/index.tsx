@@ -20,7 +20,7 @@ export const ProfileContext = createContext<ProfileContextType>(
     });
 
 export const ProfileContextProvider = ({ children }: ProfileContextProviderProps) => {
-  const [profile, setProfile] = useState<PROFILE[]>([]);
+  const [profile, setProfile] = useState<PROFILE[]>([{ id: 0, userProfile: 0, name: "", statusMessage: "", description: "", img: "", }]);
 
   useEffect(() => {
     const filter = async () => {

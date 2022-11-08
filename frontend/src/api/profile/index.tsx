@@ -76,4 +76,3 @@ export const getMyProf = async () => {
     alert(err);
   }
 };
-

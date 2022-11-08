@@ -17,7 +17,7 @@ export const UserContext = React.createContext<UserContextType>({} as {
 });
 
 export const UserContextProvider = ({ children }: UserContextProviderProps) => {
-  const [users, setUsers] = useState<USER[]>([]);
+  const [users, setUsers] = useState<USER[]>([{ id: 0, userProfile: 0, name: "", statusMessage: "", description: "", img: "" }]);
 
   useEffect(() => {
     const filter = async () => {

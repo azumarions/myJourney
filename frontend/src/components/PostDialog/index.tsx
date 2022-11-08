@@ -4,14 +4,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import { CommentContext } from '../../contexts/comment';
 import Cookie from "universal-cookie";
 import { UserContext } from '../../contexts/user';
-import { COMMENT } from '../../types';
-import { getAllComments } from '../../api/comment';
-import { Directions } from '@mui/icons-material';
-import { ListItemIcon } from '@mui/material';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import Like from '../Like';
+import Comment from '../Comment';
+import { ProfileContext } from '../../contexts/profile';
 
 const cookie = new Cookie();
 
@@ -20,135 +16,39 @@ type PostDialogType = {
   userPost: number
 }
 
-const PostDialog: React.FC<PostDialogType> = ({ postId, userPost}) => {
-  const { comments, setComments } = useContext(CommentContext)
+const PostDialog: React.FC<PostDialogType> = ({ postId, userPost }) => {
   const { users } = useContext(UserContext)
-  const [ id, setId ] = useState<number>(0)
-  const [ sentence, setSentence ] = useState<string>("")
+  const { profile } = useContext(ProfileContext)
 
   const user = users.filter((user) => user.userProfile === userPost)
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      setComments([...comments, { id: id, sentence: sentence }]);
-      await fetch(`${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/comment/`, {
-          method: "POST",
-          body: JSON.stringify({ sentence: sentence, post: postId }),
-          headers: {
-          "Content-Type": "application/json",
-          Authorization: `JWT ${cookie.get("access_token")}`,
-          },
-      }).then((res) => {
-          if (res.status === 401) {
-          alert("JWT Token not valid");
-          }
-      });
-      // setComments([...comments, {id: 0, sentence: "" }]);
-  }
+  // user.map((user) => <PostForm key={user.id} user={user}/>)
+
   return (
     <>
     {user && user.map((user) => (
-      <List key={user.id}>
+      <List key={user.id}>  
+        <ListItem>
+          <Grid container alignItems='center'>
+            {/* <Link href={`/user/${user.id}`}> */}
+              <Avatar sx={{ m: 1, width: 50, height: 50, minWidth: 20, display: 'inline-block' }} alt={user.name} src={user.img} />           
+              <ListItemText primary={user.name} sx={{ display: 'inline-block' }} />
+            {/* </Link> */}
+          </Grid>
+        </ListItem>
+
+        {profile.map((prof) => (
+        <Like key={postId} postId={postId} userId={prof.userProfile} userPost={userPost} />    
+        ))}
+        {/* {profile.map((prof) => (
+        <div key={prof.id}>
+        <Like postId={postId} userId={prof.userProfile} userPost={userPost} />
+        <p>{prof.name}</p>
+        <p>{prof.userProfile}</p>
+        </div>
+        ))} */}
+        <Comment postId={postId} />
         
-          <ListItem>
-            <Link href={`/user/${user.id}`}>
-            <ListItemAvatar>         
-              <Avatar sx={{ m: 1, width: 50, height: 50, minWidth: 20 }}
-                alt={user.name}
-                src={user.img}
-              />           
-            </ListItemAvatar> 
-            </Link>   
-            <Link href={`/user/${user.id}`}>  
-            <ListItemText primary={user.name}/>
-            </Link>
-          </ListItem>
-          <ListItem>
-            <Grid container alignItems='center'>
-              <Grid item xs={3} sm={3} lg={3}>
-                <ListItemIcon>
-                  <FavoriteBorderIcon />
-                </ListItemIcon>
-              </Grid>
-              <Grid item xs={3} sm={3} lg={3}>
-                <ListItemIcon>
-                  <BookmarkBorderIcon />
-                </ListItemIcon>
-              </Grid>
-              <Grid item xs={3} sm={3} lg={3}>
-                <ListItemIcon>
-                  <TelegramIcon />
-                </ListItemIcon>
-              </Grid>
-            </Grid>
-          </ListItem>
-          <ListItem>
-            <Like postId={postId} />
-          </ListItem>
-        
-          <Box
-            component="form"
-            onSubmit={onSubmit} 
-            method="POST"
-            sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', borderBottom: 1}}
-          >
-            <InputBase
-              sx={{ ml: 1, flex: 1 }}
-              placeholder="コメント"
-              inputProps={{ 'aria-label': 'コメント' }}
-              value={sentence}
-              onChange={ e => setSentence(e.target.value)}
-            />
-            <Divider sx={{ height: 30, m: 0 }} orientation="vertical" />
-            <IconButton color="primary" sx={{ p: '10px' }} aria-label="directions">
-              <Directions />
-            </IconButton>
-          </Box>
-        <TableContainer sx={{ maxHeight: 440 }}>
-          <Table stickyHeader aria-label="sticky table">
-          {comments.map((comment) => (
-           
-            <ListItem alignItems="flex-start" key={comment.id}>
-              <ListItemAvatar sx={{margin: 0}}>
-                <Avatar sx={{ width: 40, height: 40, margin: 0}} src={ users.find((user) => user.userProfile === comment.comment)?.img} />
-              </ListItemAvatar>
-              <ListItemText sx={{ fontSize: 20, margin: 0}}
-                primary={comment.sentence}
-                secondary={
-                  <React.Fragment>
-                    <Typography
-                      sx={{ display: 'inline', fontSize: 7, margin: 0 }}
-                      component="span"
-                      variant="body2"
-                      color="text.primary"
-                    >
-                      {users.find((user) => user.userProfile === comment.comment)?.name}
-                    </Typography>
-                  </React.Fragment>
-                }
-              />
-            </ListItem>
-                ))}
-          </Table>
-        </TableContainer>
-          {/* {filterComment.map((comment) => (
-            <div key={comment.id}>
-              <Avatar
-                src={
-                  users.find(
-                    (user) => user.userProfile === comment.comment
-                  )?.img
-                }
-              />
-                  {
-                    users.find(
-                      (user) => user.userProfile === comment.comment
-                    )?.name
-                  }
-                {comment.sentence}
-              
-            </div>   
-          ))} */}
       </List>
     ))}
     </>
