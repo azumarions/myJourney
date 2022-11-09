@@ -30,7 +30,7 @@ const MyProfile: React.FC<DIALOG> = ({ openMyProfile, handleProfileClose}) => {
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12}>
           <Divider sx={{ display: { xs: "block", sm: "none", md: "none", lg: "none" }, }} />
-          <Box sx={{ fontSize: { xs: 18, sm: 24, md: 26, lg: 28 }, paddingTop: 1, textAlign: "center" }}>投稿一覧</Box>
+          <Box sx={{ fontSize: { xs: 16, sm: 20, md: 22, lg: 25 }, paddingTop: 1, textAlign: "center" }}>投稿一覧</Box>
           <Box sx={{ width: '99%', margin: '20px auto' }}>
             <Grid container spacing={0.2}>
               {filterPost && filterPost.map((post) => (

@@ -1,4 +1,4 @@
-import { Avatar, Grid, List, ListItem } from '@mui/material'
+import { Avatar, Divider, Grid, List, ListItem } from '@mui/material'
 import { Box } from '@mui/system'
 import React from 'react'
 import { USER } from '../../types'
@@ -11,19 +11,24 @@ const Profile: React.FC<UserType> = ({ user }) => {
   return (
     <List key={user.id}>  
         <ListItem>
-            <Grid container alignItems='center' justifyContent='center' direction="column">
+          <Grid container alignItems='center' justifyContent='center' direction="column">
             <Avatar
-                sx={{ m: 1, width: 200, height: 200, minWidth: 20 }} 
+                sx={{ 
+                  width: { xs: 150, sm: 180, md: 200, lg: 220 },
+                  height: { xs: 150, sm: 180, md: 200, lg: 220 },
+                  margin: 1,
+                }}
                 srcSet={`${user.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
                 alt={user.name} 
                 src={user.img} >
-            </Avatar>  
-            <Box sx={{ fontSize: { xs: 18, sm: 24, md: 26, lg: 28 }, padding: 2 }}>{user.name}</Box>
-            <Box sx={{ fontSize: { xs: 12, sm: 16, md: 16, lg: 18 }, }}>{user.description}</Box>
-            <Box sx={{ fontSize: { xs: 12, sm: 16, md: 16, lg: 18 }, }}>{user.description}</Box>
-            <Box sx={{ fontSize: { xs: 12, sm: 16, md: 16, lg: 18 }, }}>{user.description}</Box>
-            <Box sx={{ fontSize: { xs: 12, sm: 16, md: 16, lg: 18 }, }}>{user.description}</Box>
-        </Grid>               
+            </Avatar>
+            <Box sx={{ fontSize: { xs: 18, sm: 24, md: 26, lg: 28 }, pt: 2, pb: 1 }}>{user.name}</Box>
+            <Box sx={{ fontSize: { xs: 14, sm: 20, md: 22, lg: 24 }, padding: 1 }}>{user.statusMessage}</Box>
+            <Divider sx={{ display: "block" }} />
+            <Box sx={{ fontSize: { xs: 16, sm: 20, md: 22, lg: 25 }, padding: 0.5}}>概要</Box>
+            <Box sx={{ fontSize: { xs: 12, sm: 16, md: 18, lg: 20 }, }}>{user.description}</Box>
+            <Box sx={{ fontSize: { xs: 12, sm: 16, md: 18, lg: 20 }, }}>{user.description}</Box>
+          </Grid>               
         </ListItem>
     </List>
   )

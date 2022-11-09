@@ -68,7 +68,7 @@ const Comment: React.FC<CommentType> = ({ postId }) => {
                     width: { xs: 35, sm: 50, md: 60, lg: 70 },
                     height: { xs: 35, sm: 50, md: 60, lg: 70 },
                     margin: 1 
-                  }} 
+                  }}
                   src={ users.find((user) => user.userProfile === comment.comment)?.img}
                 />
                 </Link>

@@ -2,13 +2,14 @@ import React, { MouseEventHandler, useContext, useEffect, useRef, useState } fro
 import Image from 'next/image'
 import PostDialog from '../PostDialog';
 import { POST, USER } from '../../types';
-import { Avatar, Box, Divider, Grid } from '@mui/material';
+import { Avatar, Box, Divider, Grid, List, ListItem, ListItemAvatar, ListItemText } from '@mui/material';
 import { Dialog, DialogProps, DialogContent, DialogTitle } from '@mui/material';
 import { ImageListItem, ImageListItemBar, IconButton } from '@mui/material'
 import InfoIcon from '@mui/icons-material/Info';
 import Profile from '../Profile';
 import { PostContext } from '../../contexts/post';
 import Post from '../Post';
+import { display } from '@mui/system';
 
 type UserType = {
   user: USER
@@ -42,23 +43,49 @@ const User: React.FC<UserType> = ({ user }) => {
   }, [open]);
 
   return (
-    <>
-      <Grid item xs={12} sm={12} md={6} lg={6}>
-        <ImageListItem key={user.id}>
-        <Avatar 
-          sx={{ 
-            width: { xs: 50, sm: 70, md: 75, lg: 80 },
-            height: { xs: 50, sm: 70, md: 75, lg: 80 },
-            margin: 1 
-          }}
-          src={`${user.img}?w=248&fit=crop&auto=format`}
-          srcSet={`${user.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-          alt={user.name}
-          onClick={handleClickOpen('paper')} 
-        />
-        <Box sx={{ fontSize: { xs: 14, sm: 18, md: 20, lg: 22 }, }}>{user.name}</Box>
-        </ImageListItem>
-      </Grid> 
+    <> 
+      <Grid item xs={12} sm={6} md={6} lg={6}>
+        <List key={user.id}>  
+          <ListItem>
+            <ListItemAvatar>
+            <Avatar 
+              sx={{ 
+                width: { xs: 70, sm: 110, md: 130, lg: 150 },
+                height: { xs: 70, sm: 110, md: 130, lg: 150 },
+                margin: 1,
+              }}
+              src={`${user.img}?w=248&fit=crop&auto=format`}
+              srcSet={`${user.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+              alt={user.name}
+              onClick={handleClickOpen('paper')}
+            />
+            </ListItemAvatar>
+            <ListItemText 
+              primary={
+                <Box 
+                  onClick={handleClickOpen('paper')} 
+                  sx={{ 
+                    fontSize: { xs: 15, sm: 20, md: 23, lg: 25 }, 
+                    padding: 0, 
+                  }}>
+                    {user.name}
+                </Box>
+              }
+              secondary={
+                <Box 
+                  onClick={handleClickOpen('paper')} 
+                  sx={{ 
+                    fontSize: { xs: 12, sm: 17, md: 20, lg: 22 }, 
+                    padding: 0, 
+                  }}>
+                    {user.statusMessage}
+                </Box>
+              }
+            />   
+          </ListItem> 
+        </List>
+      </Grid>
+      
       <Dialog
         open={open}
         onClose={handleClose}
@@ -71,8 +98,8 @@ const User: React.FC<UserType> = ({ user }) => {
             <Profile key={user.id} user={user} />
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12}>
-          <Divider sx={{ display: { xs: "block", sm: "none", md: "none", lg: "none" }, }} />
-          {/* <Box sx={{ fontSize: { xs: 18, sm: 24, md: 26, lg: 28 }, paddingTop: 1, textAlign: "center" }}>投稿一覧</Box> */}
+          <Divider sx={{ display: "block" }} />
+          <Box sx={{ fontSize: { xs: 18, sm: 24, md: 26, lg: 28 }, paddingTop: 1, textAlign: "center" }}>投稿一覧</Box>
           <Box sx={{ width: '99%', margin: '20px auto' }}>
             <Grid container spacing={0.2}>
               {filterPost && filterPost.map((post) => (
