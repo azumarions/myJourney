@@ -1,7 +1,7 @@
 import { GetStaticProps } from 'next'
 import { getAllPosts } from '../api/post'
 import Layout from '../components/Layout'
-import Post from '../components/Post';
+import Post from '../components/PostIndex';
 import { POST } from '../types'
 import { Box, Grid } from '@mui/material';
 

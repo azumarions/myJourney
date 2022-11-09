@@ -4,6 +4,7 @@ import Cookie from "universal-cookie";
 import { UserContext } from '../../contexts/user'
 import { CommentContext } from '../../contexts/comment';
 import TelegramIcon from '@mui/icons-material/Telegram';
+import Link from 'next/link';
 
 const cookie = new Cookie();
 
@@ -47,7 +48,7 @@ const Comment: React.FC<CommentType> = ({ postId }) => {
         sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', borderBottom: 1}}
        >
         <InputBase
-            sx={{ ml: 1, flex: 1 }}
+            sx={{ ml: 1, flex: 1, fontSize: { xs: 13, sm: 15, md: 17, lg: 19 }, }}
             placeholder="コメント"
             inputProps={{ 'aria-label': 'コメント' }}
             value={sentence}
@@ -59,21 +60,43 @@ const Comment: React.FC<CommentType> = ({ postId }) => {
         </IconButton>
       </Box>
           {filterComment.map((comment) => (
-            <ListItem alignItems="flex-start" key={comment.id}>
+            <ListItem alignItems="flex-start" key={comment.id} sx={{ ml: -3.5 }}>
               <ListItemAvatar sx={{margin: 0}}>
-                <Avatar sx={{ width: 40, height: 40, margin: 0}} src={ users.find((user) => user.userProfile === comment.comment)?.img} />
+                <Link href={`/user/${users.find((user) => user.userProfile === comment.comment)?.id}`}>
+                <Avatar 
+                  sx={{ 
+                    width: { xs: 35, sm: 50, md: 60, lg: 70 },
+                    height: { xs: 35, sm: 50, md: 60, lg: 70 },
+                    margin: 1 
+                  }} 
+                  src={ users.find((user) => user.userProfile === comment.comment)?.img}
+                />
+                </Link>
               </ListItemAvatar>
-              <ListItemText sx={{ fontSize: 20, margin: 0}}
-                primary={comment.sentence}
+              <ListItemText 
+                sx={{ 
+                  fontSize: { xs: 12, sm: 16, md: 16, lg: 18 }, 
+                  margin: { xs: 0, sm: 1, md: 2, lg: 2 }
+                }}
+                primary={
+                  <Typography
+                    sx={{ display: 'inline', fontSize: { xs: 13, sm: 17, md: 17, lg: 19 }, marginTop: 0 }}
+                    component="span"
+                  >
+                    {comment.sentence}
+                  </Typography>
+                }
                 secondary={
                   <React.Fragment>
                     <Typography
-                      sx={{ display: 'inline', fontSize: 7, margin: 0 }}
+                      sx={{ display: 'inline', fontSize: { xs: 11, sm: 15, md: 15, lg: 17 }, padding: 0 }}
                       component="span"
                       variant="body2"
                       color="text.primary"
                     >
-                      {users.find((user) => user.userProfile === comment.comment)?.name}
+                      <Link href={`/user/${users.find((user) => user.userProfile === comment.comment)?.id}`}>
+                        {users.find((user) => user.userProfile === comment.comment)?.name}
+                      </Link>
                     </Typography>
                   </React.Fragment>
                 }

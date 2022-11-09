@@ -7,7 +7,7 @@ import { Dialog, DialogProps, DialogContent, DialogTitle } from '@mui/material';
 import { ImageListItem, ImageListItemBar, IconButton } from '@mui/material'
 import InfoIcon from '@mui/icons-material/Info';
 
-const Post: React.FC<POST> = ({ id, userPost, title, img, description }) => {
+const PostIndex: React.FC<POST> = ({ id, userPost, title, img, description }) => {
   const [open, setOpen] = useState(false);
   const [scroll, setScroll] = useState<DialogProps['scroll']>('paper');
   
@@ -32,7 +32,7 @@ const Post: React.FC<POST> = ({ id, userPost, title, img, description }) => {
 
   return (
     <>
-      <Grid item xs={12} sm={6} md={4} lg={4}>
+      <Grid item xs={6} sm={6} md={4} lg={3}>
         <ImageListItem key={id}>
           <img
             src={`${img}?w=248&fit=crop&auto=format`}
@@ -75,4 +75,4 @@ const Post: React.FC<POST> = ({ id, userPost, title, img, description }) => {
     </>   
   )
 }
-export default Post
+export default PostIndex

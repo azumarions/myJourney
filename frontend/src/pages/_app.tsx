@@ -5,9 +5,11 @@ import { UserContextProvider } from '../contexts/user'
 import { ProfileContextProvider } from '../contexts/profile'
 import { CommentContextProvider } from '../contexts/comment'
 import { LikeContextProvider } from '../contexts/like'
+import { ColorModeContextProvider } from '../contexts/layout'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
+    <ColorModeContextProvider>
     <PostContextProvider>
     <UserContextProvider>
     <ProfileContextProvider>
@@ -19,6 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     </ProfileContextProvider>
     </UserContextProvider>
     </PostContextProvider>
+    </ColorModeContextProvider>
   )
 }
 

@@ -5,8 +5,8 @@ import { PROFILE } from "../../types";
 // { id: 0, userProfile: "", name: "", statusMessage: "", description: "", img: "", }
 
 type ProfileContextType = {
-  profile: PROFILE[]
-  setProfile: Dispatch<React.SetStateAction<PROFILE[]>>
+  myProfile: PROFILE[]
+  setMyProfile: Dispatch<React.SetStateAction<PROFILE[]>>
 }
 
 interface ProfileContextProviderProps {
@@ -15,18 +15,18 @@ interface ProfileContextProviderProps {
 
 export const ProfileContext = createContext<ProfileContextType>(
     {} as {
-        profile: PROFILE[]
-        setProfile: Dispatch<React.SetStateAction<PROFILE[]>>
+        myProfile: PROFILE[]
+        setMyProfile: Dispatch<React.SetStateAction<PROFILE[]>>
     });
 
 export const ProfileContextProvider = ({ children }: ProfileContextProviderProps) => {
-  const [profile, setProfile] = useState<PROFILE[]>([{ id: 0, userProfile: 0, name: "", statusMessage: "", description: "", img: "", }]);
+  const [myProfile, setMyProfile] = useState<PROFILE[]>([{ id: 0, userProfile: 0, name: "", statusMessage: "", description: "", img: "", }]);
 
   useEffect(() => {
     const filter = async () => {
       try {
         const resProfile = await getMyProf()
-        resProfile && setProfile(resProfile);
+        resProfile && setMyProfile(resProfile);
       } catch {
         console.log("error");
       };
@@ -37,8 +37,8 @@ export const ProfileContextProvider = ({ children }: ProfileContextProviderProps
   return (
     <ProfileContext.Provider
       value={{
-       profile,
-       setProfile,
+       myProfile,
+       setMyProfile,
       }}
     >
       {children}

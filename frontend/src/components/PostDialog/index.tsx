@@ -18,37 +18,36 @@ type PostDialogType = {
 
 const PostDialog: React.FC<PostDialogType> = ({ postId, userPost }) => {
   const { users } = useContext(UserContext)
-  const { profile } = useContext(ProfileContext)
+  const { myProfile } = useContext(ProfileContext)
 
   const user = users.filter((user) => user.userProfile === userPost)
-
-  // user.map((user) => <PostForm key={user.id} user={user}/>)
 
   return (
     <>
     {user && user.map((user) => (
-      <List key={user.id}>  
+      <List key={postId}>  
         <ListItem>
-          <Grid container alignItems='center'>
-            {/* <Link href={`/user/${user.id}`}> */}
-              <Avatar sx={{ m: 1, width: 50, height: 50, minWidth: 20, display: 'inline-block' }} alt={user.name} src={user.img} />           
-              <ListItemText primary={user.name} sx={{ display: 'inline-block' }} />
-            {/* </Link> */}
-          </Grid>
+            <Link href={`/user/${user.id}`}>
+              <Avatar 
+                sx={{ 
+                  width: { xs: 50, sm: 70, md: 75, lg: 80 },
+                  height: { xs: 50, sm: 70, md: 75, lg: 80 },
+                  margin: 1 
+                }}
+                alt={user.name} 
+                src={user.img} />  
+            </Link>
+            <Link href={`/user/${user.id}`}>
+              <Box sx={{ fontSize: { xs: 14, sm: 18, md: 20, lg: 22 }, }}>{user.name}</Box>
+            </Link>
         </ListItem>
-
-        {profile.map((prof) => (
-        <Like key={postId} postId={postId} userId={prof.userProfile} userPost={userPost} />    
+      
+        {myProfile.map((profile) => (
+          <React.Fragment key={profile.id}>
+            <Like key={postId} postId={postId} userId={profile.userProfile} />
+            <Comment postId={postId} />
+          </React.Fragment>
         ))}
-        {/* {profile.map((prof) => (
-        <div key={prof.id}>
-        <Like postId={postId} userId={prof.userProfile} userPost={userPost} />
-        <p>{prof.name}</p>
-        <p>{prof.userProfile}</p>
-        </div>
-        ))} */}
-        <Comment postId={postId} />
-        
       </List>
     ))}
     </>

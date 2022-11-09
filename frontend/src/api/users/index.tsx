@@ -22,7 +22,7 @@ export const getAllUsersId = async () => {
   
 export const getUser = async (id: string) => {
   const res = await fetch(
-    new URL(`${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/post-detail/${id}`)
+    new URL(`${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/profile-detail/${id}`)
   )
   const user = await res.json()
   return user

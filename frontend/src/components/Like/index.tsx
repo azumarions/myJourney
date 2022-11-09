@@ -10,11 +10,9 @@ const cookie = new Cookie();
 type LikeType = {
     postId: number
     userId: number
-    userPost: number
-
 }
 
-const Like: React.FC<LikeType> = ({ postId, userId, userPost }) => {
+const Like: React.FC<LikeType> = ({ postId, userId }) => {
   const { likes, setLikes } = useContext(LikeContext)
   const { users, setUsers } = useContext(UserContext)
   const [ like, setLike ] = useState(false)
@@ -56,27 +54,45 @@ const Like: React.FC<LikeType> = ({ postId, userId, userPost }) => {
 
   return (
     <>
-      <ListItem>
-        <ListItemIcon sx={{ marginRight: 1 }}>
+      <ListItem sx={{ ml: -3.5, width: "100%" }}>
+        <ListItemIcon>
           <Box onClick={() => setLike(!like)}>
               {like ?
-                <IconButton onClick={LIKED}>
-                  <FavoriteIcon sx={{ color: "red", fontSize: 40 }} />
+                <IconButton onClick={UNLIKED}>
+                  <FavoriteIcon sx={{ color: "red", fontSize: { xs: 30, sm: 40, md: 45, lg: 50 }, }} />
                 </IconButton>
               :
-                <IconButton onClick={UNLIKED}>
-                  <FavoriteIcon sx={{ color: "pink", fontSize: 40 }} />
+                <IconButton onClick={LIKED}>
+                  <FavoriteIcon sx={{ color: "pink", fontSize: { xs: 30, sm: 40, md: 45, lg: 50 }, }} />
                 </IconButton>
               }
           </Box>
         </ListItemIcon>
-        <AvatarGroup max={10}>
-          {/* {filterLikes.map((like) => (
-            <Avatar key={like.id} sx={{ width: 40, height: 40, margin: 0}} src={ users.find((user) => user.userProfile === like.userLike)?.img} />
-          ))} */}
-          {Object.values(likes).map((like) => (
-            <Avatar key={like.id} sx={{ width: 40, height: 40, margin: 0 }} src={ users.find((user) => user.userProfile === like.userLike)?.img} />
+        <AvatarGroup>
+          {filterLikes.map((like) => (
+            <Avatar 
+              key={like.id} 
+              sx={{ 
+                width: { xs: 35, sm: 50, md: 55, lg: 60 },
+                height: { xs: 35, sm: 50, md: 55, lg: 60 },
+                margin: 0
+              }}
+              src={ users.find((user) => user.userProfile === like.userLike)?.img} 
+            />
           ))}
+          
+          {/* {Object.values(likes).map((like) => (
+            <Avatar 
+              key={like.id}
+              sx={{ 
+                width: { xs: 35, sm: 50, md: 55, lg: 60 },
+                height: { xs: 35, sm: 50, md: 55, lg: 60 },
+                margin: 0
+              }}
+              src={ users.find((user) => user.userProfile === like.userLike)?.img}
+            />
+          ))} */}
+          
         </AvatarGroup>
       </ListItem>
     </>

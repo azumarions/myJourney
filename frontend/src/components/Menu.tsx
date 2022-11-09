@@ -2,19 +2,8 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import MenuIcon from '@mui/icons-material/Menu'
 import InboxIcon from '@mui/icons-material/MoveToInbox'
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
-import Box from '@mui/material/Box'
-import CssBaseline from '@mui/material/CssBaseline'
-import List from '@mui/material/List'
-import Typography from '@mui/material/Typography'
-import Divider from '@mui/material/Divider'
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton'
-import ListItem from '@mui/material/ListItem'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
-import Toolbar from '@mui/material/Toolbar'
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 import {
   styled,
   useTheme,
@@ -28,6 +17,10 @@ import MyProfile from './MyProfile'
 import { useState } from 'react'
 import Cookie from "universal-cookie";
 import { useRouter } from "next/router";
+import { useContext } from 'react'
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import { Box, CssBaseline, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from '@mui/material'
+import { ColorModeContext, ColorModeContextProvider } from '../contexts/layout'
 
 
 const cookie = new Cookie();
@@ -88,7 +81,7 @@ export default function Menu() {
   const theme = useTheme()
   const [open, setOpen] = useState(false)
   const [form, setForm] = useState(false)
-  const [myProfile, setMyProfile] = useState(false)
+  const [openMyProfile, setOpenMyProfile] = useState(false)
 
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -103,10 +96,10 @@ export default function Menu() {
     setForm(false)
   }
   const handleProfileOpen = () => {
-    setMyProfile(true)
+    setOpenMyProfile(true)
   }
   const handleProfileClose = () => {
-    setMyProfile(false)
+    setOpenMyProfile(false)
   }
 
   const colorTheme = createTheme({
@@ -121,6 +114,8 @@ export default function Menu() {
     cookie.remove("access_token");
     router.push("/");
   };
+
+  const colorMode = useContext(ColorModeContext);
 
   return (
     <ThemeProvider theme={colorTheme}>
@@ -140,6 +135,10 @@ export default function Menu() {
             <Typography variant="h6" noWrap component="div">
               My Journey
             </Typography>
+            {theme.palette.mode} mode
+            <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+              {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+            </IconButton>
           </Toolbar>
         </AppBar>
         <Drawer
@@ -235,7 +234,7 @@ export default function Menu() {
         <Main open={open}>
           <DrawerHeader />
         </Main>
-        <MyProfile myProfile={myProfile} handleProfileClose={handleProfileClose} />
+        <MyProfile openMyProfile={openMyProfile} handleProfileClose={handleProfileClose} />
         <PostForm form={form} handleFormClose={handleFormClose} />
   
       </Box>
