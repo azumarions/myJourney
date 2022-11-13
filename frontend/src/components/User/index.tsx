@@ -2,7 +2,7 @@ import React, { MouseEventHandler, useContext, useEffect, useRef, useState } fro
 import Image from 'next/image'
 import PostDialog from '../PostDialog';
 import { POST, USER } from '../../types';
-import { Avatar, Box, Divider, Grid, List, ListItem, ListItemAvatar, ListItemText } from '@mui/material';
+import { Avatar, Box, Divider, Grid, List, ListItem, ListItemAvatar, ListItemText, Typography } from '@mui/material';
 import { Dialog, DialogProps, DialogContent, DialogTitle } from '@mui/material';
 import { ImageListItem, ImageListItemBar, IconButton } from '@mui/material'
 import InfoIcon from '@mui/icons-material/Info';
@@ -62,24 +62,24 @@ const User: React.FC<UserType> = ({ user }) => {
             </ListItemAvatar>
             <ListItemText 
               primary={
-                <Box 
+                <Typography
                   onClick={handleClickOpen('paper')} 
                   sx={{ 
                     fontSize: { xs: 15, sm: 20, md: 23, lg: 25 }, 
                     padding: 0, 
                   }}>
                     {user.name}
-                </Box>
+                </Typography>
               }
               secondary={
-                <Box 
+                <Typography
                   onClick={handleClickOpen('paper')} 
                   sx={{ 
                     fontSize: { xs: 12, sm: 17, md: 20, lg: 22 }, 
                     padding: 0, 
                   }}>
                     {user.statusMessage}
-                </Box>
+                </Typography>
               }
             />   
           </ListItem> 
@@ -103,7 +103,7 @@ const User: React.FC<UserType> = ({ user }) => {
           <Box sx={{ width: '99%', margin: '20px auto' }}>
             <Grid container spacing={0.2}>
               {filterPost && filterPost.map((post) => (
-                <Post key={post.id} {...post} />
+                <Post key={post.id} post={post} />
               ))}
             </Grid>
           </Box>

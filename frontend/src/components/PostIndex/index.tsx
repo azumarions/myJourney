@@ -6,8 +6,16 @@ import { Avatar, Box, Grid } from '@mui/material';
 import { Dialog, DialogProps, DialogContent, DialogTitle } from '@mui/material';
 import { ImageListItem, ImageListItemBar, IconButton } from '@mui/material'
 import InfoIcon from '@mui/icons-material/Info';
+import { KeyedMutator } from 'swr';
+import Cookie from "universal-cookie";
 
-const PostIndex: React.FC<POST> = ({ id, userPost, title, img, description }) => {
+const cookie = new Cookie();
+
+type PostType = {
+  post: POST
+  postDeleted: KeyedMutator<any>
+}
+const PostIndex: React.FC<PostType> = ({ post, postDeleted }) => {
   const [open, setOpen] = useState(false);
   const [scroll, setScroll] = useState<DialogProps['scroll']>('paper');
   
@@ -30,24 +38,35 @@ const PostIndex: React.FC<POST> = ({ id, userPost, title, img, description }) =>
     }
   }, [open]);
 
+  const Delete = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    await fetch(`${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/post/${post.id}`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `JWT ${cookie.get("access_token")}`,
+      },
+    });
+    postDeleted()
+  }
+
   return (
     <>
-      <Grid item xs={6} sm={6} md={4} lg={3}>
-        <ImageListItem key={id}>
+      <Grid item xs={6} sm={4} md={3} lg={2.4}>
+        <ImageListItem key={post.id}>
           <img
-            src={`${img}?w=248&fit=crop&auto=format`}
-            srcSet={`${img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-            alt={title}
+            src={`${post.img}?w=248&fit=crop&auto=format`}
+            srcSet={`${post.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+            alt={post.title}
             loading="lazy"
             onClick={handleClickOpen('paper')}
           />
           <ImageListItemBar
-            title={<Box sx={{ fontSize: { xs: 12, sm: 16, md: 16, lg: 18 }, }}>{title}</Box>}
-            subtitle={<Box sx={{ fontSize: { xs: 10, sm: 14, md: 14, lg: 16 }, }}>{description}</Box>}
+            title={<Box sx={{ fontSize: { xs: 12, sm: 16, md: 16, lg: 18 }, }}>{post.title}</Box>}
+            subtitle={<Box sx={{ fontSize: { xs: 10, sm: 14, md: 14, lg: 16 }, }}>{post.description}</Box>}
             actionIcon={
               <IconButton
                 sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                aria-label={`info about ${title}`}
+                aria-label={`info about ${post.title}`}
               >
                 <InfoIcon />
               </IconButton>
@@ -62,14 +81,14 @@ const PostIndex: React.FC<POST> = ({ id, userPost, title, img, description }) =>
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
       >
-        <DialogTitle id="scroll-dialog-title" sx={{ fontSize: { xs: 18, sm: 24, md: 26, lg: 28 }, padding: 2, textAlign: "center" }}>{title}</DialogTitle>
+        <DialogTitle id="scroll-dialog-title" sx={{ fontSize: { xs: 18, sm: 24, md: 26, lg: 28 }, padding: 2, textAlign: "center" }}>{post.title}</DialogTitle>
         <DialogContent dividers={scroll === 'paper'}>
           <Grid container alignItems='center' justifyContent='center' direction="column">
-            <Image src={img} width={500} height={500} alt={title} />
+            <Image src={post.img} width={500} height={500} alt={post.title} />
             <Box sx={{ fontSize: { xs: 16, sm: 24, md: 26, lg: 28 }, padding: 2 }}>投稿詳細</Box>
-            <Box sx={{ fontSize: { xs: 12, sm: 16, md: 16, lg: 18 }, }}>{description}</Box>
+            <Box sx={{ fontSize: { xs: 12, sm: 16, md: 16, lg: 18 }, }}>{post.description}</Box>
           </Grid>
-          <PostDialog key={id} postId={id} userPost={userPost} />
+          <PostDialog key={post.id} postId={post.id} userPost={post.userPost} />
         </DialogContent>
       </Dialog>
     </>   

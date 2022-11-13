@@ -1,7 +1,7 @@
-export interface File extends Blob {
-    readonly lastModified: number
-    readonly name: string
-  }
+// export interface File extends Blob {
+//     readonly lastModified: number
+//     readonly name: string
+//   }
 
 export interface PROPS_AUTHEN {
     email: string
@@ -48,3 +48,11 @@ export interface LIKE {
     userLike: number
     postLike: number
   }
+
+export interface NEW_POST {
+    id: number
+    userPost: number
+    title: string
+    description: string
+    img: FILE
+}

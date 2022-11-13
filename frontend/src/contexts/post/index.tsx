@@ -1,13 +1,11 @@
 import React, { createContext, useState, useEffect, Dispatch } from "react";
 import { getAllPosts } from "../../api/post";
-import { POST } from "../../types";
+import { NEW_POST, POST } from "../../types";
 
 type PostContextType = {
-  postId: number
-  post: POST
+  selectPost: NEW_POST
   posts: POST[]
-  setPostId: Dispatch<React.SetStateAction<number>>
-  setPost: Dispatch<React.SetStateAction<POST>>
+  setSelectPost: Dispatch<React.SetStateAction<NEW_POST>>
   setPosts: Dispatch<React.SetStateAction<POST[]>>
 }
 
@@ -17,18 +15,15 @@ interface PostContextProviderProps {
 
 export const PostContext = createContext<PostContextType>(
   {} as {
-    postId: number
-    post: POST
+    selectPost: NEW_POST
     posts: POST[]
-    setPostId: Dispatch<React.SetStateAction<number>>
-    setPost: Dispatch<React.SetStateAction<POST>>
+    setSelectPost: Dispatch<React.SetStateAction<NEW_POST>>
     setPosts: Dispatch<React.SetStateAction<POST[]>>
   }
 );
 
 export const PostContextProvider = ({ children }: PostContextProviderProps) => {
-  const [postId, setPostId] = useState<number>(0)
-  const [post, setPost] = useState<POST>({ id: 0, title: "", description: "", userPost: 0, img: "", });
+  const [selectPost, setSelectPost] = useState<NEW_POST>({ id: 0, userPost: 0, title: "", description: "", img: null });
   const [posts, setPosts] = useState<POST[]>([]);
 
   useEffect(() => {
@@ -46,10 +41,8 @@ export const PostContextProvider = ({ children }: PostContextProviderProps) => {
   return (
     <PostContext.Provider
       value={{
-        postId,
-        setPostId,
-        post,
-        setPost,
+        selectPost,
+        setSelectPost,
         posts,
         setPosts
       }}

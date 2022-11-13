@@ -46,7 +46,7 @@ const Comment: React.FC<CommentType> = ({ postId }) => {
         onSubmit={onSubmit} 
         method="POST"
         sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', borderBottom: 1}}
-       >
+      >
         <InputBase
             sx={{ ml: 1, flex: 1, fontSize: { xs: 13, sm: 15, md: 17, lg: 19 }, }}
             placeholder="コメント"

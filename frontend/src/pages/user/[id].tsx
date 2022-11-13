@@ -39,16 +39,16 @@ const UserDetail: React.FC<UserType> = ({ id, staticUser }) => {
   return (
     <Layout title={user.name}>
       <Grid container>
-        <Grid item xs={12} sm={6} md={6} lg={5}>
+        <Grid item xs={12} sm={12} md={6} lg={6}>
           <Profile key={user.id} user={user} />
         </Grid>
-        <Grid item xs={12} sm={6} md={6} lg={7}>
+        <Grid item xs={12} sm={12} md={6} lg={6}>
         <Divider sx={{ display: { xs: "block", sm: "none", md: "none", lg: "none" }, }} />
         <Box sx={{ fontSize: { xs: 18, sm: 24, md: 26, lg: 28 }, paddingTop: 1, textAlign: "center" }}>投稿一覧</Box>
         <Box sx={{ width: '99%', margin: '20px auto' }}>
                 <Grid container spacing={0.2}>
             {filterPost && filterPost.map((post) => (
-                <Post key={post.id} {...post} />
+                <Post key={post.id} post={post} />
             ))}
             </Grid>
            </Box>

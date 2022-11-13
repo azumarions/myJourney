@@ -1,7 +1,9 @@
+import { Box } from '@mui/material'
 import Head from 'next/head'
 import React from 'react'
 import { FC } from 'react'
 import { ColorModeContextProvider } from '../contexts/layout'
+
 import Menu from './Menu'
 
 type LayoutProps = {
@@ -11,22 +13,22 @@ type LayoutProps = {
 
 const Layout: FC<LayoutProps> = ({ children, title = 'Default title' }) => {
   return (
-    // <ColorModeContextProvider>
-    <React.Fragment>
+    <Box sx={{ bgcolor: "text.primary"}}>
+    <div>
       <Head>
         <title>{title}</title>
       </Head>
-      <header>
+      
       <Menu />
-      </header>
-      <main>
+      
+      <Box component="main" sx={{mt: -3}}>
         {children}
-      </main>
+      </Box>
       {/* <footer className="w-full h-6 flex justify-center items-center text-gray-500 text-sm">
         @Udemy 2021
       </footer> */}
-    </React.Fragment>
-    // </ColorModeContextProvider>
+      </div>
+    </Box>
   )
 }
 

@@ -135,7 +135,7 @@ export default function Menu() {
             <Typography variant="h6" noWrap component="div">
               My Journey
             </Typography>
-            {theme.palette.mode} mode
+            {/* {theme.palette.mode} mode */}
             <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
               {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
             </IconButton>
@@ -148,6 +148,9 @@ export default function Menu() {
             '& .MuiDrawer-paper': {
               width: drawerWidth,
               boxSizing: 'border-box',
+              padding: 0,
+              margin: 0,
+              
             },
           }}
           variant="persistent"

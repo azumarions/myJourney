@@ -12,12 +12,12 @@ type DIALOG = {
 }
 
 const PostForm: React.FC<DIALOG> = ({ form, handleFormClose}) => {
-  const { post, setPost } = useContext(PostContext)
+  const { selectPost, setSelectPost } = useContext(PostContext)
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await fetch(`${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/post/`, {
         method: "POST",
-        body: JSON.stringify({ title: post.title, description: post.description }),
+        body: JSON.stringify({ title: selectPost.title, description: selectPost.description }),
         headers: {
         "Content-Type": "application/json",
         Authorization: `JWT ${cookie.get("access_token")}`,
@@ -27,7 +27,7 @@ const PostForm: React.FC<DIALOG> = ({ form, handleFormClose}) => {
         alert("JWT Token not valid");
         }
     });
-    setPost({ id: 0, title: "", description: "", userPost: 0, img: "", });
+    setSelectPost({ id: 0, title: "", description: "", userPost: 0, img: "", });
   }
   return (
     <Dialog open={form} onClose={handleFormClose}>
@@ -45,9 +45,9 @@ const PostForm: React.FC<DIALOG> = ({ form, handleFormClose}) => {
                 type="text"
                 fullWidth
                 variant="standard"
-                value={post.title}
+                value={selectPost.title}
                 onChange={(e) => {
-                    setPost({ ...post, title: e.target.value })
+                    setSelectPost({ ...selectPost, title: e.target.value })
                 }}
             />
             <TextField
@@ -56,9 +56,9 @@ const PostForm: React.FC<DIALOG> = ({ form, handleFormClose}) => {
             type="text"
             fullWidth
             variant="standard"
-            value={post.description}
+            value={selectPost.description}
             onChange={(e) => {
-                setPost({ ...post, description: e.target.value})
+                setSelectPost({ ...selectPost, description: e.target.value})
             }}
             />
           <DialogActions>

@@ -16,7 +16,7 @@ const MyProfile: React.FC<DIALOG> = ({ openMyProfile, handleProfileClose}) => {
   // const filterPost = posts.filter((post) => post.userPost === user.userProfile)
 
   const filterPost = posts.filter((post) => (
-    myProfile.filter((prof) => prof.userProfile === post.userPost
+    myProfile.map((prof) => prof.userProfile === post.userPost
   )))
   
   return (
@@ -25,7 +25,7 @@ const MyProfile: React.FC<DIALOG> = ({ openMyProfile, handleProfileClose}) => {
       <Grid container>  
         <Grid item xs={12} sm={12} md={12} lg={12}>
           {myProfile.map((profile) => (
-            <Profile key={profile.id} user={profile} />
+            // <Profile key={profile.id} user={profile} />
           ))}
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12}>
@@ -34,7 +34,7 @@ const MyProfile: React.FC<DIALOG> = ({ openMyProfile, handleProfileClose}) => {
           <Box sx={{ width: '99%', margin: '20px auto' }}>
             <Grid container spacing={0.2}>
               {filterPost && filterPost.map((post) => (
-                <Post key={post.id} {...post} />
+                <Post key={post.id} post={post} />
               ))}
             </Grid>
           </Box>
