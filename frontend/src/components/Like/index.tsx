@@ -16,16 +16,20 @@ const Like: React.FC<LikeType> = ({ postId, userId }) => {
   const { likes, setLikes } = useContext(LikeContext)
   const { users, setUsers } = useContext(UserContext)
   const [ like, setLike ] = useState(false)
-  const [ liked, setLiked ] = useState()
 
   const filterLikes = Object.values(likes).filter((like) => (
     like.postLike === postId
   ))
 
+  const filterUser = Object.values(users).find((user) => (
+    likes.map((like) => { return user.userProfile === like.userLike })
+  ))
+
+  const likedId = Object.values(likes).find((like) => like.postLike === postId && like.userLike === userId)
+    console.log(likedId)
+
   const LIKED = async (e) => {
     e.preventDefault();
-    const likedId = Object.values(likes).find((like) => like.postLike === postId && like.userLike === userId)
-    console.log(likedId)
     await fetch(`${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/like/`, {
       method: "POST",
       body: JSON.stringify({ postLike: postId }),
@@ -34,12 +38,12 @@ const Like: React.FC<LikeType> = ({ postId, userId }) => {
       Authorization: `JWT ${cookie.get("access_token")}`,
       },
     });
+    setLikes([...likes, { id: likedId?.id, userLike: userId, postLike: postId }]);
+    setUsers([...users, { id: filterUser?.id, name: filterUser?.name, description: filterUser?.description, img: filterUser?.img }])
   }
 
   const UNLIKED = async (e) => {
     e.preventDefault();
-    const likedId = Object.values(likes).find((like) => like.postLike === postId && like.userLike === userId)
-    console.log(likedId)
     await fetch(`${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/like/${likedId?.id}`, {
       method: "DELETE",
       headers: {
@@ -47,7 +51,8 @@ const Like: React.FC<LikeType> = ({ postId, userId }) => {
       Authorization: `JWT ${cookie.get("access_token")}`,
       },
     });
-    setLikes([{ id: 0, userLike: 0, postLike: 0 }]);
+    setLikes([...likes, { id: likedId?.id, userLike: userId, postLike: postId }]);
+    setUsers([...users, { id: 0, userProfile: 0, name: "", statusMessage: "", description: "", img: "" }])
   }
 
   return (
@@ -67,7 +72,7 @@ const Like: React.FC<LikeType> = ({ postId, userId }) => {
           </Box>
         </ListItemIcon>
         <AvatarGroup>
-          {likes.map((like) => (
+          {filterLikes.map((like) => (
             <Avatar 
               key={like.id} 
               sx={{ 

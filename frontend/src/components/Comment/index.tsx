@@ -17,12 +17,12 @@ const Comment: React.FC<CommentType> = ({ postId }) => {
   const { comments, setComments } = useContext(CommentContext)
   const [ sentence, setSentence ] = useState<string>("")
 
-  const filterComments = Object.values(comments).filter((comment) => (
+  const filterComment = Object.values(comments).filter((comment) => (
     comment.post === postId
   ))
 
   const filterUser = Object.values(users).find((user) => (
-    comments.map((comments) => { return user.userProfile === comments.comment })
+    comments.map((comments) => { return user.userProfile === comments.comment})
   ))
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -40,7 +40,7 @@ const Comment: React.FC<CommentType> = ({ postId }) => {
         }
     });
     setComments([...comments, { sentence: sentence, post: postId }]);
-    setUsers([...users, { id: filterUser?.id, }])
+    setUsers([...users, { id: filterUser?.id, name: filterUser?.name, description: filterUser?.description, img: filterUser?.img }])
     setSentence("")
   }
 
@@ -60,12 +60,12 @@ const Comment: React.FC<CommentType> = ({ postId }) => {
             onChange={ e => setSentence(e.target.value)}
         />
         <Divider sx={{ height: 30, m: 0 }} orientation="vertical" />
-        <IconButton type="submit" color="primary" sx={{ p: '10px' }} aria-label="directions" >
+        <IconButton disabled={!sentence} type="submit" color="primary" sx={{ p: '10px' }} aria-label="directions" >
             <TelegramIcon sx={{fontSize: 30 }} />
         </IconButton>
       </Box>
-          {filterComments.map((comment) => (
-            <List key={comment.id}>
+          {filterComment.map((comment) => (
+            // <List key={comment.id}>
             <ListItem alignItems="flex-start" key={comment.id} sx={{ ml: -3.5 }}>
               <ListItemAvatar sx={{margin: 0}}>
                 <Link href={`/user/${users.find((user) => user.userProfile === comment.comment)?.id}`}>
@@ -109,7 +109,7 @@ const Comment: React.FC<CommentType> = ({ postId }) => {
                 }
               />
             </ListItem>
-            </List>
+            // </List>
           ))}
     </>
   )
