@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Avatar, ListItem, ListItemAvatar, ListItemText, Box, Typography, Divider, IconButton, InputBase, TableContainer, Table } from '@mui/material';
+import { Avatar, ListItem, ListItemAvatar, ListItemText, Box, Typography, Divider, IconButton, InputBase, TableContainer, Table, List } from '@mui/material';
 import Cookie from "universal-cookie";
 import { UserContext } from '../../contexts/user'
 import { CommentContext } from '../../contexts/comment';
@@ -15,16 +15,18 @@ type CommentType = {
 const Comment: React.FC<CommentType> = ({ postId }) => {
   const { users, setUsers } = useContext(UserContext)
   const { comments, setComments } = useContext(CommentContext)
-  const [ id, setId ] = useState<number>(0)
   const [ sentence, setSentence ] = useState<string>("")
 
-  const filterComment = Object.values(comments).filter((comment) => (
+  const filterComments = Object.values(comments).filter((comment) => (
     comment.post === postId
+  ))
+
+  const filterUser = Object.values(users).find((user) => (
+    comments.map((comments) => { return user.userProfile === comments.comment })
   ))
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setComments([...comments, { id: id, sentence: sentence }]);
     await fetch(`${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/comment/`, {
         method: "POST",
         body: JSON.stringify({ sentence: sentence, post: postId }),
@@ -37,6 +39,9 @@ const Comment: React.FC<CommentType> = ({ postId }) => {
         alert("JWT Token not valid");
         }
     });
+    setComments([...comments, { sentence: sentence, post: postId }]);
+    setUsers([...users, { id: filterUser?.id, }])
+    setSentence("")
   }
 
   return (
@@ -55,11 +60,12 @@ const Comment: React.FC<CommentType> = ({ postId }) => {
             onChange={ e => setSentence(e.target.value)}
         />
         <Divider sx={{ height: 30, m: 0 }} orientation="vertical" />
-        <IconButton color="primary" sx={{ p: '10px' }} aria-label="directions">
+        <IconButton type="submit" color="primary" sx={{ p: '10px' }} aria-label="directions" >
             <TelegramIcon sx={{fontSize: 30 }} />
         </IconButton>
       </Box>
-          {filterComment.map((comment) => (
+          {filterComments.map((comment) => (
+            <List key={comment.id}>
             <ListItem alignItems="flex-start" key={comment.id} sx={{ ml: -3.5 }}>
               <ListItemAvatar sx={{margin: 0}}>
                 <Link href={`/user/${users.find((user) => user.userProfile === comment.comment)?.id}`}>
@@ -95,13 +101,15 @@ const Comment: React.FC<CommentType> = ({ postId }) => {
                       color="text.primary"
                     >
                       <Link href={`/user/${users.find((user) => user.userProfile === comment.comment)?.id}`}>
-                        {users.find((user) => user.userProfile === comment.comment)?.name}
+                        {/* {users.find((user) => user.userProfile === comment.comment)?.name} */}
+                        {filterUser?.name}
                       </Link>
                     </Typography>
                   </React.Fragment>
                 }
               />
             </ListItem>
+            </List>
           ))}
     </>
   )

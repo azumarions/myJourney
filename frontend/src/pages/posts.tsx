@@ -43,10 +43,10 @@ const PostPage: React.FC<PostType> = ({ staticPosts }) => {
         <Box sx={{ m: -1, }}>Search</Box>
       </Box>
       <Box sx={{ width: '99%', margin: '20px auto' }}>
+      <PF postCreated={mutate} />
         <Grid container spacing={0.2}>
-          {/* <PF postCreated={mutate} /> */}
           {posts && posts.map((post: POST) => (
-            <React.Fragment>
+            <React.Fragment key={post.id}>
                 <PostIndex key={post.id} post={post} postDeleted={mutate} />
             </React.Fragment>
               ))}

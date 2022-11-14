@@ -33,9 +33,7 @@ const Like: React.FC<LikeType> = ({ postId, userId }) => {
       "Content-Type": "application/json",
       Authorization: `JWT ${cookie.get("access_token")}`,
       },
-    }).then((data) => {
-      setLikes(data)
-    })
+    });
   }
 
   const UNLIKED = async (e) => {
@@ -69,7 +67,7 @@ const Like: React.FC<LikeType> = ({ postId, userId }) => {
           </Box>
         </ListItemIcon>
         <AvatarGroup>
-          {filterLikes.map((like) => (
+          {likes.map((like) => (
             <Avatar 
               key={like.id} 
               sx={{ 

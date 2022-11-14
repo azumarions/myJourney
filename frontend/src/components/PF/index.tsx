@@ -1,5 +1,5 @@
 import { Box, TextField } from '@mui/material'
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { POST } from '../../types'
 import Cookie from "universal-cookie";
 import { PostContext } from '../../contexts/post';
@@ -13,6 +13,7 @@ type PostType = {
 
 const postForm: React.FC<PostType> = ({ postCreated }) => {
   const { selectPost, setSelectPost } = useContext(PostContext)
+  const [image, setImage] = useState<File | null>(null);
 
 //   const getImage = (e: React.ChangeEvent<HTMLInputElement>) => {
 //     const img = e.target.files
@@ -30,7 +31,7 @@ const postForm: React.FC<PostType> = ({ postCreated }) => {
 
     await fetch(`${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/post/`, {
         method: "POST",
-        body: JSON.stringify({ title: selectPost.title, img: selectPost.img, description: selectPost.description }),
+        body: JSON.stringify({ title: selectPost.title, description: selectPost.description }),
         // body: formData,
         headers: {
         "Content-Type": "application/json",
@@ -72,10 +73,7 @@ const postForm: React.FC<PostType> = ({ postCreated }) => {
             />
             {/* <input
               type="file"
-            //   onChange={getImage}
-              onChange={(e) => {
-                setSelectPost({ ...selectPost, img: e.target.files![0]});
-              }}
+              onChange={(e) => setImage(e.target.files![0])}
             /> */}
             <button
             disabled={!selectPost.title || !selectPost.description}

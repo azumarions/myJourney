@@ -36,7 +36,7 @@ export interface POST {
 }
 
 export interface COMMENT {
-    id: number
+    id?: number
     sentence: string
     comment?: number | undefined
     post?: number | undefined

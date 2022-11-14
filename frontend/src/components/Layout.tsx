@@ -13,7 +13,7 @@ type LayoutProps = {
 
 const Layout: FC<LayoutProps> = ({ children, title = 'Default title' }) => {
   return (
-    <Box sx={{ bgcolor: "text.primary"}}>
+    <Box sx={{ bgcolor: "white"}}>
     <div>
       <Head>
         <title>{title}</title>

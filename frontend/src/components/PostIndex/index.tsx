@@ -73,7 +73,7 @@ const PostIndex: React.FC<PostType> = ({ post, postDeleted }) => {
             }
           />
         </ImageListItem>
-      </Grid> 
+      </Grid>
       <Dialog
         open={open}
         onClose={handleClose}
