@@ -54,5 +54,5 @@ export interface NEW_POST {
     userPost: number
     title: string
     description: string
-    img: FILE
+    img: FILE | null
 }

@@ -1,10 +1,16 @@
+import axios from "axios";
 import React, { createContext, useState, useEffect, Dispatch } from "react";
 import { getMyProf } from "../../api/profile";
 import { PROFILE } from "../../types";
+import Cookie from "universal-cookie"
+
+const cookie = new Cookie();
 
 // { id: 0, userProfile: "", name: "", statusMessage: "", description: "", img: "", }
 
 type ProfileContextType = {
+  editProfile: PROFILE
+  setEditProfile: Dispatch<React.SetStateAction<PROFILE>>
   myProfile: PROFILE[]
   setMyProfile: Dispatch<React.SetStateAction<PROFILE[]>>
 }
@@ -15,21 +21,40 @@ interface ProfileContextProviderProps {
 
 export const ProfileContext = createContext<ProfileContextType>(
     {} as {
+        editProfile: PROFILE
         myProfile: PROFILE[]
+        setEditProfile: Dispatch<React.SetStateAction<PROFILE>>
         setMyProfile: Dispatch<React.SetStateAction<PROFILE[]>>
     });
 
 export const ProfileContextProvider = ({ children }: ProfileContextProviderProps) => {
+  const [editProfile, setEditProfile] = useState<PROFILE>({id: 0, userProfile: 0, name: "", statusMessage: "", description: "", img: "", })
   const [myProfile, setMyProfile] = useState<PROFILE[]>([]);
 
   useEffect(() => {
     const filter = async () => {
+      // try {
+      //   const resProfile = await getMyProf()
+      //   resProfile && setMyProfile(resProfile);
+      //   resProfile && setEditProfile({ id: resProfile.id, userProfile: resProfile.userProfile, name: resProfile.name, statusMessage: resProfile.statusMessage, description: resProfile.description, img: resProfile.img, })
+      // } catch {
+      //   console.log("error");
+      // };
       try {
-        const resProfile = await getMyProf()
-        resProfile && setMyProfile(resProfile);
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/myprofile/`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `JWT ${cookie.get('access_token')}`,
+            },
+          }
+        );
+        setMyProfile(res.data[0]);
+        setEditProfile({ id: res.data[0].id, userProfile: res.data[0].userProfile, name: res.data[0].name, statusMessage: res.data[0].statusMessage, description: res.data[0].description, img: res.data[0].img, })
       } catch {
         console.log("error");
-      };
+      }
     }
     filter()
   },[]);
@@ -37,8 +62,10 @@ export const ProfileContextProvider = ({ children }: ProfileContextProviderProps
   return (
     <ProfileContext.Provider
       value={{
-       myProfile,
-       setMyProfile,
+        editProfile,
+        setEditProfile,
+        myProfile,
+        setMyProfile,
       }}
     >
       {children}

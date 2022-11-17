@@ -4,6 +4,8 @@ import { POST } from '../../types'
 import Cookie from "universal-cookie";
 import { PostContext } from '../../contexts/post';
 import { KeyedMutator } from 'swr';
+import { ProfileContext } from '../../contexts/profile';
+import axios from 'axios';
 
 const cookie = new Cookie();
 
@@ -13,6 +15,7 @@ type PostType = {
 
 const postForm: React.FC<PostType> = ({ postCreated }) => {
   const { selectPost, setSelectPost } = useContext(PostContext)
+  const { editProfile } = useContext(ProfileContext)
   const [image, setImage] = useState<File | null>(null);
 
 //   const getImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,26 +27,44 @@ const postForm: React.FC<PostType> = ({ postCreated }) => {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // const formData = new FormData()
-    // selectPost.title && formData.append('title', selectPost.title)
-    // selectPost.description && formData.append('description', selectPost.description)
-    // selectPost.img && formData.append('img', selectPost.img)
+    console.log(selectPost)
+    const formData = new FormData()
+    selectPost.title && formData.append('title', selectPost.title)
+    selectPost.description && formData.append('description', selectPost.description)
+    selectPost.img && formData.append('img', selectPost.img)
 
-    await fetch(`${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/post/`, {
-        method: "POST",
-        body: JSON.stringify({ title: selectPost.title, description: selectPost.description }),
-        // body: formData,
-        headers: {
-        "Content-Type": "application/json",
-        Authorization: `JWT ${cookie.get("access_token")}`,
-        },
-    }).then((res) => {
-        if (res.status === 401) {
-        alert("JWT Token not valid");
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/post/`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `JWT ${cookie.get("access_token")}`,
+          },
         }
-    });
-    setSelectPost({ id: 0, userPost: 0, title: "", description: "", img: null, });
-    postCreated();
+      );
+      setSelectPost({ id: res.data.id, userPost: res.data.userPost, title: res.data.title, description: res.data.description, img: res.data.img, });
+      postCreated();
+    } catch {
+      console.log("error");
+    }
+
+    // await fetch(`${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/post/`, {
+    //     method: "POST",
+    //     body: JSON.stringify({ title: selectPost.title, img: selectPost.img, description: selectPost.description }),
+    //     // body: formData,
+    //     headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: `JWT ${cookie.get("access_token")}`,
+    //     },
+    // }).then((res) => {
+    //     if (res.status === 401) {
+    //     alert("JWT Token not valid");
+    //     }
+    // });
+    // setSelectPost({ id: 0, userPost: 0, title: "", description: "", img: null, });
+    // postCreated();
   }
 
   return (
@@ -71,9 +92,13 @@ const postForm: React.FC<PostType> = ({ postCreated }) => {
                 setSelectPost({ ...selectPost, description: e.target.value})
             }}
             />
-            {/* <input
+            <input
               type="file"
-              onChange={(e) => setImage(e.target.files![0])}
+              onChange={(e) => {setSelectPost({ ...selectPost, img: e.target.files !== null ? e.target.files[0] : null})}}
+            />
+             {/* <input
+              type="file"
+              onChange={(e) => {setSelectPost({ ...selectPost, img: e.target.files![0]})}}
             /> */}
             <button
             disabled={!selectPost.title || !selectPost.description}

@@ -48,7 +48,7 @@ const UserDetail: React.FC<UserType> = ({ id, staticUser }) => {
         <Box sx={{ width: '99%', margin: '20px auto' }}>
                 <Grid container spacing={0.2}>
             {filterPost && filterPost.map((post) => (
-                <Post key={post.id} post={post} />
+                <Post key={post.id} post={post} postDeleted={mutate} />
             ))}
             </Grid>
            </Box>

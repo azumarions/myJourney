@@ -31,6 +31,7 @@ const PostPage: React.FC<PostType> = ({ staticPosts }) => {
 
   return (
     <Layout title="Posts">
+      <Box sx={{bgcolor: "white"}}>
       <Box
         component="form"
         method="POST"
@@ -51,6 +52,7 @@ const PostPage: React.FC<PostType> = ({ staticPosts }) => {
             </React.Fragment>
               ))}
         </Grid>
+      </Box>
       </Box>
     </Layout>
   )

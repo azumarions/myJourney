@@ -18,7 +18,7 @@ type PostDialogType = {
 
 const PostDialog: React.FC<PostDialogType> = ({ postId, userPost }) => {
   const { users } = useContext(UserContext)
-  const { myProfile } = useContext(ProfileContext)
+  const { editProfile } = useContext(ProfileContext)
 
   const user = users.filter((user) => user.userProfile === userPost)
 
@@ -42,12 +42,12 @@ const PostDialog: React.FC<PostDialogType> = ({ postId, userPost }) => {
             </Link>
         </ListItem>
       
-        {myProfile.map((profile) => (
-          <React.Fragment key={profile.id}>
-            <Like key={postId} postId={postId} userId={profile.userProfile} />
+        {/* {myProfile.map((profile) => ( */}
+          <React.Fragment key={editProfile.id}>
+            <Like key={postId} postId={postId} userId={editProfile.userProfile} />
             <Comment postId={postId} />
           </React.Fragment>
-        ))}
+        {/* ))} */}
       </List>
     ))}
     </>

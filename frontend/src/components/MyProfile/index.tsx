@@ -3,9 +3,8 @@ import React, { useContext, useState } from 'react'
 import { PostContext } from '../../contexts/post'
 import { ProfileContext } from '../../contexts/profile'
 import Post from '../Post'
-import Profile from '../Profile'
 import Cookie from "universal-cookie";
-import { NoEncryption, NoMeals } from '@mui/icons-material'
+import { textAlign } from '@mui/system'
 
 const cookie = new Cookie();
 
@@ -15,49 +14,86 @@ type DIALOG = {
 }
 
 const MyProfile: React.FC<DIALOG> = ({ openMyProfile, handleProfileClose}) => {
-  const { myProfile, setMyProfile} = useContext(ProfileContext)
-  const { selectPost, setSelectPost, posts, setPosts } = useContext(PostContext)
+  const { editProfile, setEditProfile } = useContext(ProfileContext)
+  const { posts } = useContext(PostContext)
   const [ edit, setEdit ] = useState(false)
+  const [ editName, setEditName ] = useState<string>("")
+  const [ editStatusMessage, setEditStatusMessage ] = useState<string>("")
+  const [ editDescription, setEditDescription ] = useState<string>("")
 
     const onClick = () => {
         setEdit(!edit)
     }
 
-  const filterPost = posts.filter((post) => (
-    myProfile.map((prof) => prof.userProfile === post.userPost
-  )))
+    // const handleNameChange = (e) => {
+    //   const name = e.target.value;
+    //   if (name !== null) {
+    //     setEditName(name);
+    //   } else {
+    //     setEditName(editProfile.name)
+    //   }
+    // };
 
-  const update = async (e) => {
-    e.preventDefault();
-    await fetch(
-      `${process.env.NEXT_PUBLIC_RESTAPI_URL}api/tasks/${myProfile.map((profile) => profile.id)}/`,
-      {
-        method: "PUT",
-        body: JSON.stringify({ name: myProfile.map((profile) => profile.name) }),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `JWT ${cookie.get("access_token")}`,
-        },
-      }
-    ).then((res) => {
-      if (res.status === 401) {
-        alert("JWT Token not valid");
-      }
-    });
-    setMyProfile([]);
-  };
+    // const handleStatusMessageChange = (e) => {
+    //   const statusMessage = e.target.value;
+    //   if (statusMessage !== null) {
+    //     setEditStatusMessage(statusMessage);
+    //   } else {
+    //     setEditStatusMessage(editProfile.statusMessage)
+    //   }
+    // };
+
+    // const handleDescriptionChange = (e) => {
+    //   const description = e.target.value;
+    //   if (description !== null) {
+    //     setEditDescription(description);
+    //   } else {
+    //     setEditDescription(editProfile.description)
+    //   }
+    // };
+
+    const onSave = async (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault()
+      await fetch(
+        `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/profile/${editProfile.id}/`,
+        {
+          method: "PUT",
+          body: JSON.stringify({ name: editProfile.name, statusMessage: editProfile.statusMessage, description: editProfile.description }),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `JWT ${cookie.get("access_token")}`,
+          },
+        }
+      ).then((res) => {
+        if (res.status === 401) {
+          alert("JWT Token not valid");
+        }
+      });
+      setEditProfile({ ...editProfile, name: editProfile.name, statusMessage: editProfile.statusMessage, description: editProfile.description });
+      // setEditProfile({ ...editProfile, name: "", statusMessage: "", description: "" });
+      // setEditName(editName)
+      // setEditStatusMessage(editStatusMessage)
+      // setEditDescription(editDescription)
+      setEdit(!edit)
+    }
+
+  const filterPost = posts.filter((post) => (
+    post.userPost === editProfile.userProfile
+  ))
   
   return (
     <Dialog open={openMyProfile} onClose={handleProfileClose}>
-      {/* <DialogTitle>プロフィール</DialogTitle> */}
       <Grid container>
       <div>
-        <Button onClick={onClick}>edit</Button>
+        <Button onClick={onClick}>{!edit ? <p>edit</p> : <p>back</p>}</Button>
+      </div>
+      <div>
+        {!edit ? null : <Button onClick={onSave}>save</Button>}
       </div>
         <Grid item xs={12} sm={12} md={12} lg={12}>
-          {myProfile.map((profile) => (
-            // <Profile key={profile.id} user={profile} />
-            <List key={profile.id}>  
+          {/* {myProfile.map((profile) => ( */}
+          {/* <Profile key={editProfile.id} user={editProfile} /> */}
+            <List key={editProfile.id}>  
             <ListItem>
               <Grid container alignItems='center' justifyContent='center' direction="column">
                 <Avatar
@@ -66,49 +102,58 @@ const MyProfile: React.FC<DIALOG> = ({ openMyProfile, handleProfileClose}) => {
                       height: { xs: 150, sm: 180, md: 200, lg: 220 },
                       margin: 1,
                     }}
-                    srcSet={`${profile.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                    alt={profile.name}
-                    src={profile.img} >
+                    srcSet={`${editProfile.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                    alt={editProfile.name}
+                    src={editProfile.img} >
                 </Avatar>
-                {!edit ? <Box sx={{ fontSize: { xs: 18, sm: 24, md: 26, lg: 28 }, pt: 2, pb: 1 }}>{profile.name}</Box> : 
+                {editProfile.id}
+                {!edit ? <Box sx={{ fontSize: { xs: 18, sm: 24, md: 26, lg: 28 }, pt: 2, pb: 1 }}>{editProfile.name}</Box> : 
                 <TextField 
-                margin="normal"
+                  margin="normal"
                   fullWidth
                   sx={{ ml: 1, flex: 1, fontSize: { xs: 18, sm: 24, md: 26, lg: 28 }, }}
-                  defaultValue={profile.name}
+                  // placeholder={editProfile.name}
                   variant="standard"
-                  inputProps={{style: { fontSize: 18 }}}
+                  inputProps={{style: { fontSize: 18, textAlign: "center"}}}
+                  value={editProfile.name}
+                  onChange={(e) =>
+                    setEditProfile({ ...editProfile, name: e.target.value })
+                  }
                 />
                 }
-                {!edit ? <Box sx={{ fontSize: { xs: 14, sm: 18, md: 20, lg: 23 }, pt: 2, pb: 1 }}>{profile.statusMessage}</Box> : 
+                {!edit ? <Box sx={{ fontSize: { xs: 14, sm: 18, md: 20, lg: 23 }, pt: 2, pb: 1 }}>{editProfile.statusMessage}</Box> : 
                 <TextField
                   margin="normal"
                   fullWidth
                   sx={{ ml: 1, flex: 1, fontSize: { xs: 14, sm: 18, md: 20, lg: 23 }, }}
-                  defaultValue={profile.statusMessage}
+                  // placeholder={editProfile.statusMessage}
                   variant="standard"
-                  inputProps={{style: { fontSize: 14 }}}
+                  inputProps={{style: { fontSize: 14, textAlign: "center" }}}
+                  value={editProfile.statusMessage}
+                  onChange={(e) =>
+                    setEditProfile({ ...editProfile, statusMessage: e.target.value })
+                  }
                 />
                 }
                 <Box sx={{ fontSize: { xs: 16, sm: 20, md: 22, lg: 25 }, padding: 0.5}}>概要</Box>
-                {!edit ? <Box sx={{ fontSize: { xs: 12, sm: 16, md: 18, lg: 20 }, }}>{profile.description}</Box> : 
+                {!edit ? <Box sx={{ fontSize: { xs: 12, sm: 16, md: 18, lg: 20 }, }}>{editProfile.description}</Box> : 
                 <TextField
                   fullWidth
                   multiline
                   minRows={5}
-                  defaultValue={profile.description}
+                  // placeholder={editProfile.description}
                   variant="standard"
                   inputProps={{style: { fontSize: 12 }}}
-                  // value={profile.name}
-                  // onChange={(e) => {
-                  //   setSelectPost({ ...myProfile, title: e.target.value })
-                // }}
+                  value={editProfile.description}
+                  onChange={(e) =>
+                    setEditProfile({ ...editProfile, description: e.target.value })
+                  }
                 />
                 }
               </Grid>               
             </ListItem>
         </List>
-          ))}
+          {/* ))} */}
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12}>
           <Divider sx={{ display: { xs: "block", sm: "none", md: "none", lg: "none" }, }} />
