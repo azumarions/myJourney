@@ -44,7 +44,7 @@ const PostPage: React.FC<PostType> = ({ staticPosts }) => {
         <Box sx={{ m: -1, }}>Search</Box>
       </Box>
       <Box sx={{ width: '99%', margin: '20px auto' }}>
-      <PF postCreated={mutate} />
+      {/* <PF postCreated={mutate} /> */}
         <Grid container spacing={0.2}>
           {posts && posts.map((post: POST) => (
             <React.Fragment key={post.id}>
@@ -68,3 +68,20 @@ export const getStaticProps: GetStaticProps = async () => {
     },
   }
 }
+
+// try {
+    //   const res = await axios.post(
+    //     `${process.env.NEXT_PUBLIC_RESTAPI_URL}/api/post/`,
+    //     formData,
+    //     {
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //         Authorization: `JWT ${cookie.get("access_token")}`,
+    //       },
+    //     }
+    //   );
+    //   setSelectPost({ id: res.data.id, userPost: res.data.userPost, title: res.data.title, description: res.data.description, img: res.data.img, });
+    //   postCreated();
+    // } catch {
+    //   console.log("error");
+    // }

@@ -4,6 +4,7 @@ import { PostContext } from '../../contexts/post'
 import { ProfileContext } from '../../contexts/profile'
 import Post from '../Post'
 import Cookie from "universal-cookie";
+import Loader from 'react-loader-spinner'
 import { textAlign } from '@mui/system'
 
 const cookie = new Cookie();
@@ -17,40 +18,10 @@ const MyProfile: React.FC<DIALOG> = ({ openMyProfile, handleProfileClose}) => {
   const { editProfile, setEditProfile } = useContext(ProfileContext)
   const { posts } = useContext(PostContext)
   const [ edit, setEdit ] = useState(false)
-  const [ editName, setEditName ] = useState<string>("")
-  const [ editStatusMessage, setEditStatusMessage ] = useState<string>("")
-  const [ editDescription, setEditDescription ] = useState<string>("")
 
     const onClick = () => {
         setEdit(!edit)
     }
-
-    // const handleNameChange = (e) => {
-    //   const name = e.target.value;
-    //   if (name !== null) {
-    //     setEditName(name);
-    //   } else {
-    //     setEditName(editProfile.name)
-    //   }
-    // };
-
-    // const handleStatusMessageChange = (e) => {
-    //   const statusMessage = e.target.value;
-    //   if (statusMessage !== null) {
-    //     setEditStatusMessage(statusMessage);
-    //   } else {
-    //     setEditStatusMessage(editProfile.statusMessage)
-    //   }
-    // };
-
-    // const handleDescriptionChange = (e) => {
-    //   const description = e.target.value;
-    //   if (description !== null) {
-    //     setEditDescription(description);
-    //   } else {
-    //     setEditDescription(editProfile.description)
-    //   }
-    // };
 
     const onSave = async (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault()
@@ -70,10 +41,6 @@ const MyProfile: React.FC<DIALOG> = ({ openMyProfile, handleProfileClose}) => {
         }
       });
       setEditProfile({ ...editProfile, name: editProfile.name, statusMessage: editProfile.statusMessage, description: editProfile.description });
-      // setEditProfile({ ...editProfile, name: "", statusMessage: "", description: "" });
-      // setEditName(editName)
-      // setEditStatusMessage(editStatusMessage)
-      // setEditDescription(editDescription)
       setEdit(!edit)
     }
 
