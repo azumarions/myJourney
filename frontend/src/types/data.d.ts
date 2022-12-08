@@ -16,6 +16,7 @@ export interface PROFILE {
     statusMessage: string
     description: string
     img: string
+    editImage: File | null
 }
   
 export interface USER {
@@ -54,5 +55,6 @@ export interface NEW_POST {
     userPost: number
     title: string
     description: string
-    img: FILE | null
+    img?: string
+    postImg?: FILE | null
 }

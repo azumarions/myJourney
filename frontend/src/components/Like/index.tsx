@@ -26,7 +26,6 @@ const Like: React.FC<LikeType> = ({ postId, userId }) => {
   ))
 
   const likedId = Object.values(likes).find((like) => like.postLike === postId && like.userLike === userId)
-    console.log(likedId)
 
   const LIKED = async (e) => {
     e.preventDefault();

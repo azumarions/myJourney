@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, Dispatch } from "react";
-import { getAllPosts } from "../../api/post";
+import { getAllPosts, getPost } from "../../api/post";
 import { NEW_POST, POST } from "../../types";
 
 type PostContextType = {
@@ -23,7 +23,7 @@ export const PostContext = createContext<PostContextType>(
 );
 
 export const PostContextProvider = ({ children }: PostContextProviderProps) => {
-  const [selectPost, setSelectPost] = useState<NEW_POST>({ id: 0, userPost: 0, title: "", description: "", img: null });
+  const [selectPost, setSelectPost] = useState<NEW_POST>({ id: 0, userPost: 0, title: "", description: "", postImg: null });
   const [posts, setPosts] = useState<POST[]>([]);
 
   useEffect(() => {

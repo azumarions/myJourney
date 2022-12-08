@@ -6,6 +6,8 @@ import { Avatar, Box, Grid } from '@mui/material';
 import { Dialog, DialogProps, DialogContent, DialogTitle } from '@mui/material';
 import { ImageListItem, ImageListItemBar, IconButton } from '@mui/material'
 import InfoIcon from '@mui/icons-material/Info';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { ProfileContext } from '../../contexts/profile';
 
 type PostType = {
   post: POST
@@ -53,7 +55,7 @@ const Post: React.FC<PostType> = ({ post }) => {
                 sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
                 aria-label={`info about ${post.title}`}
               >
-                <InfoIcon />
+                 <InfoIcon />
               </IconButton>
             }
           />

@@ -28,7 +28,7 @@ export const ProfileContext = createContext<ProfileContextType>(
     });
 
 export const ProfileContextProvider = ({ children }: ProfileContextProviderProps) => {
-  const [editProfile, setEditProfile] = useState<PROFILE>({id: 0, userProfile: 0, name: "", statusMessage: "", description: "", img: "", })
+  const [editProfile, setEditProfile] = useState<PROFILE>({id: 0, userProfile: 0, name: "", statusMessage: "", description: "", img: "", editImage: null })
   const [myProfile, setMyProfile] = useState<PROFILE[]>([]);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ export const ProfileContextProvider = ({ children }: ProfileContextProviderProps
           }
         );
         setMyProfile(res.data[0]);
-        setEditProfile({ id: res.data[0].id, userProfile: res.data[0].userProfile, name: res.data[0].name, statusMessage: res.data[0].statusMessage, description: res.data[0].description, img: res.data[0].img, })
+        setEditProfile({ id: res.data[0].id, userProfile: res.data[0].userProfile, name: res.data[0].name, statusMessage: res.data[0].statusMessage, description: res.data[0].description, img: res.data[0].img, editImage: res.data[0].editImage})
       } catch {
         console.log("error");
       }

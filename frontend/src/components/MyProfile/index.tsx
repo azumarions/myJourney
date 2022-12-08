@@ -4,8 +4,8 @@ import { PostContext } from '../../contexts/post'
 import { ProfileContext } from '../../contexts/profile'
 import Post from '../Post'
 import Cookie from "universal-cookie";
-import Loader from 'react-loader-spinner'
-import { textAlign } from '@mui/system'
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import EditPost from '../EditPost'
 
 const cookie = new Cookie();
 
@@ -22,6 +22,11 @@ const MyProfile: React.FC<DIALOG> = ({ openMyProfile, handleProfileClose}) => {
     const onClick = () => {
         setEdit(!edit)
     }
+
+    const handleEditPicture = () => {
+      const fileInput = document.getElementById("imageInput");
+      fileInput?.click();
+    };
 
     const onSave = async (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault()
@@ -63,17 +68,29 @@ const MyProfile: React.FC<DIALOG> = ({ openMyProfile, handleProfileClose}) => {
             <List key={editProfile.id}>  
             <ListItem>
               <Grid container alignItems='center' justifyContent='center' direction="column">
+              {/* {!edit ? null : 
+              <Box>
+                <input
+                  type="file"
+                  id="imageInput"
+                  hidden={true}
+                  //hidden=true
+                  onChange={(e) => {setEditProfile({ ...editProfile, editImage: e.target.files !== null ? e.target.files[0] : null})}}
+                />
+                <IconButton onClick={handleEditPicture}><AddAPhotoIcon /></IconButton>
+              </Box>} */}
                 <Avatar
                     sx={{ 
                       width: { xs: 150, sm: 180, md: 200, lg: 220 },
                       height: { xs: 150, sm: 180, md: 200, lg: 220 },
                       margin: 1,
                     }}
+                    id="imageInput"
                     srcSet={`${editProfile.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
                     alt={editProfile.name}
                     src={editProfile.img} >
                 </Avatar>
-                {editProfile.id}
+                
                 {!edit ? <Box sx={{ fontSize: { xs: 18, sm: 24, md: 26, lg: 28 }, pt: 2, pb: 1 }}>{editProfile.name}</Box> : 
                 <TextField 
                   margin="normal"
@@ -128,7 +145,7 @@ const MyProfile: React.FC<DIALOG> = ({ openMyProfile, handleProfileClose}) => {
           <Box sx={{ width: '99%', margin: '20px auto' }}>
             <Grid container spacing={0.2}>
               {filterPost && filterPost.map((post) => (
-                <Post key={post.id} post={post} />
+                <EditPost key={post.id} post={post} />
               ))}
             </Grid>
           </Box>
